@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import ArticleListPage from "./components/ArticleListPage";
 import 'babel-polyfill';
+import { App } from "./app";
 
-ReactDOM.render(<ArticleListPage />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
