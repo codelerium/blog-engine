@@ -14,14 +14,11 @@ const init = async () => {
   const DB = client.db('grapql-test');
   const User = DB.collection('User');
   const Article = DB.collection('Article');
-
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers: resolvers(User, Article),
   });
-
   const app = express();
-
   app.use(cors());
   app.use('/api', bodyParser.json(), graphqlExpress({schema}));
   app.use('/apis', graphiqlExpress({ endpointURL: '/api' }));

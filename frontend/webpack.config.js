@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: ['babel-polyfill', './frontend/index.js'],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     filename: 'app.bundle.js',
   },
   module: {
@@ -11,6 +11,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
         options: {
           presets: ['es2015', 'stage-0', 'react'],
           plugins: ['transform-async-to-generator', 'syntax-async-functions',],
