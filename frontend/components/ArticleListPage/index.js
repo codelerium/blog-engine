@@ -21,21 +21,24 @@ class ArticleListPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articles: null,
-      article: {},
+      article: null,
     }
   }
 
   componentWillMount() {
     const { id } = this.props.match.params;
-    API.RETRIEVE_ARTICLE({ id })
+    API.RETRIEVE_ARTICLE({ slug: id })
       .then(article => this.setState({ article }));
   }
 
   render() {
+    console.log(this.state.article);
     return (
       <Page>
-        <Article data={this.state.article} />
+        {
+          this.state.article &&
+            <Article data={this.state.article} />
+        }
         <Recommendations/>
         <Comments comments={testComments}/>
         <Footer/>

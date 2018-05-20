@@ -24,5 +24,6 @@ export default {
   EDIT: {
     background: '#fff',
     flex: 1,
+    overflow: 'auto',
   },
 }

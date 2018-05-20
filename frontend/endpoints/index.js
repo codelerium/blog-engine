@@ -3,7 +3,7 @@ import { API_ENDPOINT } from '../config/dev';
 
 export const API = {
   RETRIEVE_ARTICLE: async (options) => {
-    const { id } = options;
+    const { slug } = options;
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -13,11 +13,17 @@ export const API = {
       body: JSON.stringify({
         query: `
           {
-            retrieveArticle(_id: "${id}") {
+            retrieveArticle(slug: "${slug}") {
               _id
               title
               created
               author_id
+              slug
+              blocks {
+                _id
+                type
+                content
+              }
             }
           }
         `
@@ -44,6 +50,12 @@ export const API = {
               title
               created
               author_id
+              slug
+              blocks {
+                _id
+                type
+                content
+              }
             }
           }
         `
@@ -56,7 +68,7 @@ export const API = {
     return res.data.retrieveAllArticles;
   },
   CREATE_ARTICLE: async (options) => {
-    const { title, created, authorId, id } = options;
+    const { title, created, slug, authorId, id } = options;
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -70,11 +82,13 @@ export const API = {
               title: "${title}"
               created: "${created}"
               author_id: "${authorId}"
+              slug: "${slug}"
             }) {
               _id,
               title,
               created,
               author_id,
+              slug,
             }
           }
         `
@@ -85,6 +99,46 @@ export const API = {
       OPTIONS,
     ).then(res => res.json());
     return res.data.createArticle;
+  },
+  UPDATE_ARTICLE: async (options) => {
+    const { title, created, authorId, id, slug, blocks } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            updateArticle(_id: "${id}", input: {
+              title: "${title}",
+              slug: "${slug}",
+              blocks: [${blocks.map(block => 
+                (
+                  `{
+                    _id: "${block._id}", 
+                    type: "${block.type}", 
+                    content: """${block.content}"""
+                  }`
+                )
+              )}],
+            }) {
+              title, 
+              _id, 
+              author_id, 
+              created,
+              slug,
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(
+      API_ENDPOINT,
+      OPTIONS,
+    ).then(res => res.json());
+    return res.data.updateArticle;
   },
   DELETE_ARTICLE: async (options) => {
     const { id } = options;

@@ -18,19 +18,31 @@ export const typeDefs = [
       title: String
       created: String
       author_id: String
-      paragraphs: [String]
+      slug: String
+      blocks: [BlockInput]
+    }
+    type Block {
+      _id: String
+      type: String
+      content: String
+    }
+    input BlockInput {
+      _id: String
+      type: String
+      content: String
     }
     type Article {
       _id: String
+      slug: String
       title: String
       created: String
       author_id: String
-      paragraphs: [String]
+      blocks: [Block]
     }
     type Query {
       retrieveUser(_id: String): User
       retrieveAllUsers: [User]
-      retrieveArticle(_id: String): Article
+      retrieveArticle(slug: String): Article
       retrieveAllArticles: [Article]
     }
     type Mutation {

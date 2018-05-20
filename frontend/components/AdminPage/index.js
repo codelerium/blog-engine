@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import * as Guid from 'guid';
 import { API } from '../../endpoints';
 import { Page } from "../Page";
 import { Input } from "../Input/index";
 import s from './styles.css';
 import ArticleEditor from "../ArticleEditor/index";
+import { Link } from "react-router-dom";
 
 class AdminPage extends Component {
   constructor(props) {
@@ -34,7 +36,8 @@ class AdminPage extends Component {
     API.CREATE_ARTICLE({
       title: this.state.articleName,
       created: moment().format('YYYY-MM-DD'),
-      id: this.state.articleName.toLowerCase().split(' ').join('-'),
+      id: Guid.raw(),
+      slug: this.state.articleName.toLowerCase().split(' ').join('-'),
       authorId: '1',
     }).then(res => {
       this.setState({
@@ -67,17 +70,18 @@ class AdminPage extends Component {
       <tr key={article._id}>
         <td>{article.title}</td>
         <td>{article._id}</td>
+        <td>{article.slug}</td>
         <td>{article.created}</td>
         <td>
           <button onClick={() => this.onDeleteArticle(article._id)}>delete</button>
           <button onClick={() => this.onEditArticle(article._id)}>edit</button>
+          <Link target="_blank" to={`/article/${article.slug}`}>Preview</Link>
         </td>
       </tr>
     ))
   }
 
   render() {
-    console.log(this.state, this.state.articles.find(a => a._id === this.state.selectedArticleId));
     return (
       <Page>
         <div style={s.CONTAINER}>
@@ -88,6 +92,7 @@ class AdminPage extends Component {
                 <tr>
                   <th>Name</th>
                   <th>Id</th>
+                  <th>Slug</th>
                   <th>Created</th>
                   <th>Actions</th>
                 </tr>
@@ -95,9 +100,9 @@ class AdminPage extends Component {
                 <tbody>
                 {this.renderArticles()}
                 </tbody>
-                <Input onChange={this.onArticleNameChange} value={this.state.articleName}/>
-                <button onClick={this.onAddArticle}>Save article</button>
               </table>
+              <Input onChange={this.onArticleNameChange} value={this.state.articleName}/>
+              <button onClick={this.onAddArticle}>Save article</button>
             </div>
             <div style={s.EDIT}>
               {

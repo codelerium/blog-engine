@@ -2,7 +2,7 @@ export const resolvers = (User, Article) => ({
   Query: {
     retrieveUser: async (root, {_id}) => (await User.findOne({ _id })),
     retrieveAllUsers: async () => (await User.find({}).toArray()),
-    retrieveArticle: async (root, {_id}) => (await Article.findOne({ _id })),
+    retrieveArticle: async (root, {slug}) => (await Article.findOne({ slug })),
     retrieveAllArticles: async () => (await Article.find({}).toArray()),
   },
   Mutation: {

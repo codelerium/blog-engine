@@ -6,31 +6,41 @@ import Code from '../Code/index';
 import { Image } from '../Image/index';
 import s from './styles.css';
 import {PillarBox} from "../PillarBox/index";
+import {Subtitle} from "../Subtitle";
+import {Loader} from "../Loader";
+import { BLOCK_TYPES } from '../../config/dev';
+
+const renderBlock = block => {
+  switch(block.type) {
+    case BLOCK_TYPES.TEXT: 
+      return <Paragraph key={block._id} text={block.content} />
+      break;
+    case BLOCK_TYPES.BLOCKQUOTE: 
+      return <BlockQuote key={block._id} text={block.content} />
+      break;
+    case BLOCK_TYPES.CODE: 
+      return <Code key={block._id} snippet={block.content} />
+      break;
+    case BLOCK_TYPES.IMAGE: 
+      return <Image key={block._id} url={block.content} />
+      break;
+    case BLOCK_TYPES.SUBTITLE: 
+      return <Subtitle key={block._id} text={block.content} />
+      break;
+    default: 
+      return [];
+      break; 
+  }
+} 
 
 export const Article = props => (
   <div style={s.ARTICLE}>
+    <Loader />
     <PillarBox>
-      <Title text={props.data.title}/>
-      <Paragraph
-        title={'From gaming to coding'}
-        text={'It all started when I found myself lost in the gaming world. Most days, I would spend the majority of my time playing Call of Duty, Gears of War, Runescape, and whatever else I could get my hands on. All of my friends would meet up on these games daily to play, and we slowly shifted from being outside most of the day, to playing online.'}
-      />
-      <Paragraph text={'Not too long after I realized the power of Java, I found a book online called Teach Yourself Java in 21 days. I downloaded Eclipse and got started. The book fascinated me, and although I was still an avid gamer, I found myself growing more fond of my new hobby everyday.'} />
-      <BlockQuote
-        text={'After two years, we stopped working on Runn, and focused on other opportunities. In addition to my own ventures, I’ve engineered at some great companies: Nexient, Ford, and Nima Labs.'}
-      />
-      <Paragraph text={'I’m now in Santa Monica, working on SafePGP — a cryptography tool, as well as a crypto trading app. I’ve been blessed to have the opportunity to do my favorite childhood hobby as a profession, and I couldn’t imagine doing anything else.'} />
-      <Code snippet={'var code = "Hello blog!"'} />
-      <Paragraph text={'I’m now in Santa Monica, working on SafePGP — a cryptography tool, as well as a crypto trading app. I’ve been blessed to have the opportunity to do my favorite childhood hobby as a profession, and I couldn’t imagine doing anything else.'} />
-      <Image url={'http://localhost:8080/images/test.png'} caption={'1.1 Test image!'} extended/>
-      <Paragraph text={'I’m now in Santa Monica, working on SafePGP — a cryptography tool, as well as a crypto trading app. I’ve been blessed to have the opportunity to do my favorite childhood hobby as a profession, and I couldn’t imagine doing anything else.'} />
-      <Image url={'http://localhost:8080/images/test2.png'} caption={'1.2 Test 2 image!'} extended/>
-      <Code snippet={
-`for (var i = 0; i < 10; i++) {
-  console.log(i);
-}`
-      }/>
-      <Paragraph text={'I’m now in Santa Monica, working on SafePGP — a cryptography tool, as well as a crypto trading app. I’ve been blessed to have the opportunity to do my favorite childhood hobby as a profession, and I couldn’t imagine doing anything else.'} />
+      <Title text={props.data.title} created={props.data.created}/>
+      {
+        props.data.blocks.map(block => renderBlock(block))
+      }
     </PillarBox>
   </div>
 );
