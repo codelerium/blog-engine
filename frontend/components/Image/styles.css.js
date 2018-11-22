@@ -2,7 +2,9 @@ import BASE from '../../base.css';
 
 export default {
   IMAGE_WRAPPER_OUTER: {
-    marginBottom: 30,
+
+  },
+  IMAGE_WRAPPER_MIDDLE: {
     position: 'relative',
     paddingBottom: '75%',
     background: '#000',
@@ -15,10 +17,12 @@ export default {
     height: '100%',
     objectFit: 'cover',
     objectPosition: 'center',
+    border: '1px solid #ccc',
+    boxSizing: 'border-box',
   },
   CAPTION: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
-    marginBottom: '60px',
+    margin: '20px 0',
   }
 }

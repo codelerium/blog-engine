@@ -1,7 +1,5 @@
 export default {
-  CODE: {
-    marginBottom: 30,
-    border: '1px solid #ccc',
-    padding: 15,
+  CODE_WRAPPER: {
+    padding: '20px 0',
   }
 }

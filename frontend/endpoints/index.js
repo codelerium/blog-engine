@@ -65,6 +65,7 @@ export const API = {
       API_ENDPOINT,
       OPTIONS,
     ).then(res => res.json());
+    console.log(res);
     return res.data.retrieveAllArticles;
   },
   CREATE_ARTICLE: async (options) => {

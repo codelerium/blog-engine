@@ -1,5 +1,5 @@
 export default {
   ARTICLE: {
-    marginBottom: 120,
+    padding: '80px 0',
   }
 }

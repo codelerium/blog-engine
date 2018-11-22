@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ArticleListPage from "./components/ArticleListPage";
-import HomePage from './components/HomePage';
-import AdminPage from './components/AdminPage';
+import ArticleListPage from "./pages/ArticleListPage";
+import HomePage from './pages/HomePage';
+import AdminPage from './pages/AdminPage';
 
 export const App = () => (
   <Router>

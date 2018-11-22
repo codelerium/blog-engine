@@ -1,6 +1,6 @@
 export default {
   CONTAINER: {
-    margin: '120px 0 60px',
+    padding: '40px 0',
   },
   TITLE: {
     fontSize: 36,

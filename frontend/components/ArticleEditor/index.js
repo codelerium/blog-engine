@@ -7,6 +7,7 @@ import {TextArea} from "../Textarea";
 import {API} from "../../endpoints";
 import { BLOCK_TYPES } from '../../config/dev';
 import ArticleBlock from "../ArticleBlock";
+import {Button} from "../Button";
 
 export default class ArticleEditor extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default class ArticleEditor extends Component {
   onArticleUpdate() {
     API.UPDATE_ARTICLE({
       id: this.props.article._id,
-      slug: this.state.slug, 
+      slug: this.state.slug,
       title: this.state.title,
       blocks: this.state.blocks,
     }).then(res => console.log(res));
@@ -108,9 +109,9 @@ export default class ArticleEditor extends Component {
 
   renderBlocks() {
     return this.state.blocks.map((block, index) => (
-      <ArticleBlock 
+      <ArticleBlock
         key={block._id}
-        type={block.type} 
+        type={block.type}
         content={block.content}
         onDelete={() => this.onDeleteBlock(block._id)}
         onBlockTypeChange={(type) => this.onBlockTypeChange(block._id, type)}
@@ -127,8 +128,8 @@ export default class ArticleEditor extends Component {
         <Input onChange={e => this.onTitleChange(e.target.value)} value={this.state.title}/>
         <Input onChange={e => this.onSlugChange(e.target.value)} value={this.state.slug}/>
         {this.state.blocks.length > 0 && this.renderBlocks()}
-        <button onClick={this.onArticleUpdate}>Update article</button>
-        <button onClick={this.onCreateBlock}>Create block</button>
+        <Button onClick={this.onArticleUpdate} title="Update article"/>
+        <Button onClick={this.onCreateBlock} title="Create block"/>
       </div>
     )
   }

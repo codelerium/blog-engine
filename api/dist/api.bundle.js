@@ -97,7 +97,7 @@ eval("\n\nvar _dev = __webpack_require__(/*! ./config/dev */ \"./api/config/dev.
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar MONGO_CONN_STRING = exports.MONGO_CONN_STRING = 'mongodb://admin:admin@ds237848.mlab.com:37848/grapql-test';\n\n//# sourceURL=webpack:///./api/config/dev.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar MONGO_CONN_STRING = exports.MONGO_CONN_STRING = 'mongodb://localhost:27017/blog'; //'mongodb://admin:admin@ds237848.mlab.com:37848/grapql-test';\n\n//# sourceURL=webpack:///./api/config/dev.js?");
 
 /***/ }),
 

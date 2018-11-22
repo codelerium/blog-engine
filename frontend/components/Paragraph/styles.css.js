@@ -1,5 +1,9 @@
 export default {
+  PARAGRAPH_WRAPPER: {
+    padding: '20px 0',
+  },
   PARAGRAPH: {
-    marginBottom: '30px',
+    padding: 0,
+    margin: 0,
   }
 }
