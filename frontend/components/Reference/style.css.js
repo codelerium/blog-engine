@@ -4,10 +4,9 @@ export default {
     },
     REFERENCE: {
       marginBottom: 10,
-    },
-    REFERENCE_ANCHOR: {
-      color: 'rgb(187, 187, 187)',
-      fontSize: 14,
-      textDecoration: 'none',
+      display: 'flex',
+      width: '100%',
+      overflow: 'hidden',
+      whiteSpace: 'pre-wrap',
     }
   }

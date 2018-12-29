@@ -5,7 +5,7 @@ import s from './styles.css';
 export const Image = props => (
   <div style={{
       ...s.IMAGE_WRAPPER_OUTER,
-      ...(props.extended ? {
+      ...(props.extended && window.innerWidth > 768 ? {
           width: 'calc(100% + 120px)',
           margin: '20px 0 20px -60px',
       } : {

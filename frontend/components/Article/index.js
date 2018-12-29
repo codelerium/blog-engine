@@ -10,6 +10,7 @@ import { Subtitle } from "../Subtitle";
 import { Loader } from "../Loader";
 import { Title } from '../Title/index';
 import { Image } from '../Image/index';
+import { List } from '../List/index';
 import { Code } from '../Code/index';
 import s from './styles.css';
 
@@ -37,6 +38,8 @@ const renderBlock = block => {
       return <Reference key={block._id} references={block.content.split('\n')} />;
     case BLOCK_TYPES.EXPRESSION:
       return <Expression key={block._id} text={block.content} />;
+    case BLOCK_TYPES.LIST:
+      return <List key={block._id} items={block.content.split('\n')} />;
     default:
       return [];
   }

@@ -19,14 +19,14 @@ export default class Comments extends React.Component {
   }
 
   renderComments() {
-    return this.props.comments.map((comment, i) => (
-      <Comment key={i} text={comment.text} name={comment.name || ''}/>
+    return this.props.comments.map((comment) => (
+      <Comment key={comment.id} comment={comment}/>
     ))
   }
 
   render() {
     return (
-      <div style={{ padding: '60px 0', background: '#f5f5f5' }}>
+      <div style={{ padding: '60px 0', borderTop: '1px solid #f5f5f5', background: '#f9f9f9' }}>
         <PillarBox>
           <TextArea onChange={this.onTextChange} value={this.state.text}/>
           <button style={s.BUTTON}>Send</button>

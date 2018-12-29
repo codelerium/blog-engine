@@ -8,7 +8,7 @@ export default class Table extends Component {
 
     render() {
         return (
-            <table style={{ borderCollapse: 'collapse', border: '1px solid lightgray' }}>
+            <table style={{ background: 'white', width: '100%', borderCollapse: 'collapse', border: '1px solid lightgray' }}>
                 <thead>
                     {this.props.children[0]}
                 </thead>

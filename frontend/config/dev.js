@@ -8,4 +8,5 @@ export const BLOCK_TYPES = {
     SUBTITLE: 'SUBTITLE',
     REFERENCE: 'REFERENCE',
     EXPRESSION: 'EXPRESSION',
+    LIST: 'LIST',
 };

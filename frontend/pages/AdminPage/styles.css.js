@@ -13,22 +13,25 @@ export default {
   },
   MAIN: {
     display: 'flex',
-    width: 'calc(100% - 240px)',
+    width: '100%',
     height: '100%',
+    background: '#fbfbfb',
   },
   ARTICLES: {
-    background: '#fff',
     borderRight: '1px solid lightgray',
-    flex: 1,
+    flex: '0 0 50%',
+    boxSizing: 'border-box',
     padding: 30,
   },
   EDIT: {
-    background: '#fff',
-    flex: 1,
+    flex: '0 0 50%',
     overflow: 'auto',
+    boxSizing: 'border-box',
+    padding: 30,
   },
   NEW_ARTICLE: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: 10,
   }
 }

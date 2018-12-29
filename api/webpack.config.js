@@ -7,7 +7,7 @@ module.exports = {
     __dirname: true,
   },
   externals: [nodeExternals()],
-  entry: ['babel-polyfill', './api/api.js'],
+  entry: ['./api/api.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'api.bundle.js',

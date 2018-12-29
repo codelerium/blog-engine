@@ -23,6 +23,7 @@ export default class ArticleEditor extends Component {
     this.onCreateBlock = this.onCreateBlock.bind(this);
     this.onDeleteBlock = this.onDeleteBlock.bind(this);
     this.onBlockContentChange = this.onBlockContentChange.bind(this);
+    this.onInsertDown = this.onInsertDown.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -51,7 +52,9 @@ export default class ArticleEditor extends Component {
       slug: this.state.slug,
       title: this.state.title,
       blocks: this.state.blocks,
-    }).then(res => console.log(res));
+    }).then(res => {
+      console.log(res)
+    }).catch(err => console.log(err));
   }
 
   onCreateBlock() {
@@ -107,6 +110,17 @@ export default class ArticleEditor extends Component {
     })
   }
 
+  onInsertDown(index) {
+    const item = {
+      _id: Guid.raw(),
+      type: BLOCK_TYPES.TEXT,
+      content: '',
+    };
+    const { blocks } = this.state;
+    blocks.splice(index + 1, 0, item);
+    this.setState({ blocks });
+  }
+
   renderBlocks() {
     return this.state.blocks.map((block, index) => (
       <ArticleBlock
@@ -116,6 +130,7 @@ export default class ArticleEditor extends Component {
         onDelete={() => this.onDeleteBlock(block._id)}
         onBlockTypeChange={(type) => this.onBlockTypeChange(block._id, type)}
         onTextChange={(text) => this.onBlockContentChange(block._id, text)}
+        onInsertDown={() => this.onInsertDown(index)}
         onMoveUp={() => this.onMoveUp(index)}
         onMoveDown={() => this.onMoveDown(index)}
       />
@@ -125,11 +140,15 @@ export default class ArticleEditor extends Component {
   render() {
     return(
       <div>
-        <Input onChange={e => this.onTitleChange(e.target.value)} value={this.state.title}/>
-        <Input onChange={e => this.onSlugChange(e.target.value)} value={this.state.slug}/>
+        <div style={{ display: 'flex' }}>
+          <Input onChange={e => this.onTitleChange(e.target.value)} value={this.state.title}/>
+          <Input onChange={e => this.onSlugChange(e.target.value)} value={this.state.slug}/>
+        </div>
         {this.state.blocks.length > 0 && this.renderBlocks()}
-        <Button onClick={this.onArticleUpdate} title="Update article"/>
-        <Button onClick={this.onCreateBlock} title="Create block"/>
+        <div style={{ display: 'flex' }}>
+          <Button onClick={this.onArticleUpdate} title="Update article"/>
+          <Button onClick={this.onCreateBlock} title="Create block"/>
+        </div>
       </div>
     )
   }

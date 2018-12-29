@@ -25,3 +25,6 @@ uid-skeleton/dist
 
 # CI related UID files
 uid-skeleton/ci
+
+# Env
+.env

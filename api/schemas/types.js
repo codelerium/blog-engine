@@ -4,6 +4,13 @@ export const typeDefs = [
       email: String
       password: String
     }
+    input SubscriberInput {
+      email: String
+    }
+    type Subscriber {
+      _id: String
+      email: String
+    }
     type Comment {
       _id: String
       text: String
@@ -40,8 +47,7 @@ export const typeDefs = [
       blocks: [Block]
     }
     type Query {
-      retrieveUser(_id: String): User
-      retrieveAllUsers: [User]
+      login(email: String, password: String): User
       retrieveArticle(slug: String): Article
       retrieveAllArticles: [Article]
     }
@@ -54,6 +60,8 @@ export const typeDefs = [
       updateArticle(_id: String, input: ArticleInput): Article
       deleteArticle(_id: String): Boolean
       deleteAllArticles: Boolean
+      subscribe(_id: String, input: SubscriberInput): Subscriber
+      unsubscribe(_id: String): Boolean
     }
     schema {
       query: Query

@@ -78,14 +78,14 @@ class AdminPage extends Component {
           <main style={s.MAIN}>
             <div style={s.ARTICLES}>
               <Table>
-                <TableHead columns={['Name', 'Id', 'Slug', 'Created', 'Actions']} />
+                <TableHead columns={['Name', 'Slug', 'Created', 'Actions']} />
                 <TableBody>
                   {
                       this.state.articles.map(article => (
                           <TableRow
                               key={article._id}
                               source={article}
-                              properties={['title', '_id', 'slug', 'created']}
+                              properties={['title', 'slug', 'created']}
                               actions={{
                                 onEdit: this.onEditArticle,
                                 onDelete: this.onDeleteArticle,

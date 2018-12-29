@@ -12,8 +12,12 @@ export default {
   INPUT: {
     width: '100%',
     height: 40,
-    padding: '0 20px',
+    padding: '0 10px',
     fontSize: 14,
     boxSizing: 'border-box',
+    border: 'none',
+    borderBottom: '2px solid black',
+    background: 'transparent',
+    outline: 'none',
   }
 }
