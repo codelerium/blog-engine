@@ -13,7 +13,6 @@ export default class Subscribe extends Component {
         this.state = {
             email: '',
             console: false,
-            subscribed: false,
             success_messages: [
                 'Successfully subscribed! ୧(◕‿◕)୨',
                 'Type "exit" to quit console',
@@ -46,7 +45,7 @@ export default class Subscribe extends Component {
     }
 
     render() {
-        const { email, console, subscribed, success_messages, failure_messages } = this.state;
+        const { email, console, success_messages } = this.state;
         return (
             <div style={s.SUBSCRIBE}>
                 <PillarBox>

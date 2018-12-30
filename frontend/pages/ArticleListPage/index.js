@@ -11,14 +11,14 @@ const testComments = [
   {
     id: '0',
     name: 'Jung Dániel',
-    text: 'Voronoi is a simple idea, that can difficult to implement in higher dimensions! Well explained! :)',
+    content: 'Voronoi is a simple idea, that can difficult to implement in higher dimensions! Well explained! :)',
     likes: 2,
     timestamp: '21min ago',
     replies: [
       {
         id: '1',
         name: 'Juhasz Gergely',
-        text: 'Dude! That\'s gay',
+        content: 'Dude! That\'s gay',
         likes: 0,
         timestamp: '10min ago',
       },
@@ -62,21 +62,33 @@ class ArticleListPage extends Component {
     super(props);
     this.state = {
       article: null,
+      comments: [],
     }
 
     const { id } = this.props.match.params;
     API.RETRIEVE_ARTICLE({ slug: id })
-      .then(article => this.setState({ article }));
+      .then((article) => {
+        this.setState({ article });
+      });
   }
 
   render() {
+    const { article, comments } = this.state;
     return (
       <Page>
-        {
-          this.state.article &&
-            <Article data={this.state.article} />
+        { 
+          article && (
+            <Article data={article} />
+          )
         }
-        <Comments comments={testComments}/>
+        {
+          article && (
+            <Comments 
+              comments={comments}
+              articleId={article._id}
+            />
+          )
+        }
         <Subscribe />
         {/* <Recommendations/> */}
         <Footer/>

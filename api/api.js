@@ -50,12 +50,16 @@ const init = async () => {
   const User = DB.collection('User');
   const Article = DB.collection('Article');
   const Subscriber = DB.collection('Subscriber');
+  const Commenter = DB.collection('Commenter');
+  const Comment = DB.collection('Comment');
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers: resolvers(
       User,
       Article,
       Subscriber,
+      Commenter,
+      Comment,
     ),
     directiveResolvers,
   });

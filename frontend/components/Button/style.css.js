@@ -24,5 +24,6 @@ export default {
         fontWeight: 600,
         border: 'none',
         boxShadow: '0px 6px 12px 0px hsla(50, 50%, 40%, 0.3)',
+        outline: 'none',
     }
 }

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import env from 'dotenv';
 
-export const resolvers = (User, Article, Subscriber) => ({
+export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
   Query: {
     /* retrieveUser: async (root, {_id}) => (await User.findOne({ _id })),
     retrieveAllUsers: async () => (await User.find({}).toArray()), */
@@ -16,8 +16,15 @@ export const resolvers = (User, Article, Subscriber) => ({
         return 'Unauthorized';
       }
     },
-    retrieveArticle: async (root, {slug}) => (await Article.findOne({ slug })),
+    retrieveArticle: async (root, { slug }) => {
+      console.log('SLUG', slug)
+      return await Article.findOne({ slug })
+    },
     retrieveAllArticles: async () => (await Article.find({}).toArray()),
+    retrieveCommenter: async (root, { _id }) => (await Commenter.findOne({ _id })),
+    retrieveCommentsByArticle: async (root, { articleId }) => (
+      await Comment.find({ articleId }).toArray()
+    ),
   },
   Mutation: {
     createUser: async (root, {_id, input}) => {
@@ -69,5 +76,23 @@ export const resolvers = (User, Article, Subscriber) => ({
 			return await Subscriber.findOne({ _id });
     },
     unsubscribe: async (root, {_id}) => (await Subscriber.remove({ _id })),
+    createComment: async (root, { _id, input }) => {
+      await Comment.insert({
+        _id,
+        ...input,
+      });
+      return await Comment.findOne({ _id });
+    },
+    createCommenter: async (root, {_id, input}) => {
+      const found = await Commenter.findOne({ _id });
+      if (found) {
+        return found;
+      }
+      await Commenter.insert({
+        _id,
+        ...input,
+      });
+      return await Commenter.findOne({ _id });
+    },
   },
 });

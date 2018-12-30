@@ -1,27 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Avatar } from '../Avatar';
 import s from './style.css';
 
 export const Comment = props => (
   <div style={{ display: 'flex', padding: '15px 0' }}>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={s.AVATAR_WRAPPER}>
-        <img
-          style={s.AVATAR}
-          src={'/images/logo-01.svg'}
-        />
-      </div>
+      <Avatar url={props.comment.commenter.avatar} />
       {
-        !!props.comment.replies.length && (
+        props.comment.replies && !!props.comment.replies.length && (
           <div style={s.DECOR_LINE}/>
         )
       }
     </div>
     <div style={s.COMMENT}>
       <span style={s.COMMENT_NAME}>
-        {props.comment.name}
+        {props.comment.commenter.name}
       </span>
-      {props.comment.text}
+      {props.comment.content}
       <div style={{ marginTop: 8 }}>
         <button style={{ paddingLeft: 0, border: 'none', background: 'transparent', fontSize: '14px' }}>Like</button>
         <button style={{ border: 'none', background: 'transparent', fontSize: '14px' }}>Reply</button>
@@ -31,19 +27,14 @@ export const Comment = props => (
         </span>
       </div>
       {
-        !!props.comment.replies.length && props.comment.replies.map((reply) => (
+        props.comment.replies && !!props.comment.replies.length && props.comment.replies.map((reply) => (
           <div key={reply.id} style={{ marginTop: 20, display: 'flex' }}>
-            <div style={s.AVATAR_WRAPPER}>
-              <img
-                style={s.AVATAR}
-                src={'/images/logo-01.svg'}
-              />
-            </div>
+            <Avatar url={props.comment.commenter.avatar} />
             <div style={s.COMMENT}>
               <span style={s.COMMENT_NAME}>
                 {reply.name}
               </span>
-              {reply.text}
+              {reply.content}
               <div style={{ marginTop: 8 }}>
                 <button style={{ paddingLeft: 0, border: 'none', background: 'transparent', fontSize: '14px' }}>Like</button>
                 <span style={{ fontSize: '14px' }}>

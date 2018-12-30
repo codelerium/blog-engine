@@ -25,6 +25,66 @@ export const API = {
       return { success: true, token: result };
     }
   },
+  RETRIEVE_COMMENTER: async (options) => {
+    const { commenterId } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          {
+            retrieveCommenter(_id: "${commenterId}") {
+              _id
+              email
+              name
+              avatar
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(
+      API_ENDPOINT,
+      OPTIONS,
+    ).then(res => res.json());
+    return res.data.retrieveCommenter;
+  },
+  RETRIEVE_COMMENTS_BY_ARTICLE: async (options) => {
+    const { articleId } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          {
+            retrieveCommentsByArticle(articleId: "${articleId}") {
+              _id
+              content
+              timestamp
+              likes
+              commenter {
+                _id
+                email
+                name
+                avatar
+              }
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(
+      API_ENDPOINT,
+      OPTIONS,
+    ).then(res => res.json());
+    return res.data.retrieveCommentsByArticle;
+  },
   RETRIEVE_ARTICLE: async (options) => {
     const { slug } = options;
     const OPTIONS = {
@@ -217,4 +277,72 @@ export const API = {
       });
     return res.data.subscribe;
   },
+  CREATE_COMMENT: async (options) => {
+    const { text, id, commenter, articleId } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            createComment(_id: "${id}", input: {
+              content: "${text}"
+              articleId: "${articleId}"
+              timestamp: "${new Date().toLocaleDateString()}"
+              likes: ${0}
+              commenter: {
+                name: "${commenter.name}"
+                email: "${commenter.email}"
+                avatar: "${commenter.avatar}"
+              }
+            }) {
+              _id,
+              content,
+              articleId,
+              timestamp,
+              likes,
+              commenter {
+                name,
+                email,
+                avatar,
+              }
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(API_ENDPOINT, OPTIONS).then(res => res.json());
+    return res.data.createComment;
+  },
+  CREATE_COMMENTER: async (options) => {
+    const { profile } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            createCommenter(_id: "${profile.id}", input: {
+              email: "${profile.email}"
+              name: "${profile.name}"
+              avatar: "${profile.picture.data.url}"
+            }) {
+              _id,
+              email,
+              name,
+              avatar,
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(API_ENDPOINT, OPTIONS).then(res => res.json());
+    return res.data.createCommenter;
+  }
 };

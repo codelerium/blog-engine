@@ -7,14 +7,35 @@ export const typeDefs = [
     input SubscriberInput {
       email: String
     }
+    input CommentInput {
+      content: String
+      articleId: String
+      timestamp: String
+      likes: Int
+      commenter: CommenterInput
+    }
+    input CommenterInput {
+      name: String
+      email: String
+      avatar: String
+    }
     type Subscriber {
       _id: String
       email: String
     }
+    type Commenter {
+      _id: String
+      name: String
+      email: String
+      avatar: String
+    }
     type Comment {
       _id: String
-      text: String
-      author_id: String
+      content: String
+      articleId: String
+      timestamp: String
+      likes: Int
+      commenter: Commenter
     }
     type User {
       _id: String
@@ -50,6 +71,8 @@ export const typeDefs = [
       login(email: String, password: String): User
       retrieveArticle(slug: String): Article
       retrieveAllArticles: [Article]
+      retrieveCommentsByArticle(articleId: String): [Comment]
+      retrieveCommenter(_id: String): Commenter
     }
     type Mutation {
       createUser(_id: String, input: UserInput): User
@@ -62,6 +85,8 @@ export const typeDefs = [
       deleteAllArticles: Boolean
       subscribe(_id: String, input: SubscriberInput): Subscriber
       unsubscribe(_id: String): Boolean
+      createCommenter(_id: String, input: CommenterInput): Commenter
+      createComment(_id: String, input: CommentInput): Comment
     }
     schema {
       query: Query
