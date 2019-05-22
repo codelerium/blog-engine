@@ -6,7 +6,7 @@ export default {
   },
   IMAGE_WRAPPER_MIDDLE: {
     position: 'relative',
-    paddingBottom: '75%',
+    paddingBottom: '75%', // '56.25%', // 9 / 16
     background: '#000',
   },
   IMAGE_WRAPPER_INNER: {

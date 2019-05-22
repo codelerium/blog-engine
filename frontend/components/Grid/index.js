@@ -6,7 +6,7 @@ export class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
+      visible: true,
     };
     this.handleKeyDown = this.onKeyDown.bind(this);
   }

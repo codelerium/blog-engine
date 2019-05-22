@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Page } from "../Page";
 import { API } from '../../endpoints';
 import { PillarBox } from '../../components/PillarBox';
+import Subscribe from '../../components/Subscribe';
+import Tile from '../../components/Tile';
+import { Loader } from '../../components/Loader';
 
 class HomePage extends Component {
   constructor(props) {
@@ -9,28 +12,51 @@ class HomePage extends Component {
     this.state = {
       articles: [],
     }
+    window.scrollTo(0, 0);
 
     API.RETRIEVE_ALL_ARTICLES()
-      .then(articles => this.setState({ articles }))
+      .then((articles) => {
+        window.setTimeout(() => {
+          this.setState({ articles })
+        }, 1000);
+      })
   }
 
   render() {
     const multiplier = Math.max(0.5, Math.min(1, window.innerWidth / 1000));
-    console.log(multiplier);
+    const { articles } = this.state;
     return (
       <Page>
-        <PillarBox>
-          <h1 style={{ 
-            fontSize: 64 * multiplier, margin: `${120 * multiplier}px 0` }}>Codelirum fuses coding and art together</h1>
+        <PillarBox extended>
           {
-            this.state.articles.map((article) => (
-              <div key={article._id}>
-                <h2>{article.title}</h2>
-                <a href={`/article/${article.slug}`}>Read more</a>
+            articles.length > 0 ? (
+              <div>
+                <div style={{ height: 240 }} />
+                {
+                  articles.reverse().map((article, i) => (
+                    <Tile 
+                      article={article}
+                      key={article._id}
+                      reversed={i % 2 === 0}
+                    />
+                  ))
+                }
               </div>
-            ))
+            ) : (
+              <div 
+                style={{
+                  height: '100vh',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Loader/>
+              </div>
+            )
           }
         </PillarBox>
+        <Subscribe />
       </Page>
     )
   }

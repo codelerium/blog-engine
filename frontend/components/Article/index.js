@@ -5,7 +5,6 @@ import { Expression } from '../Expression';
 import { PillarBox } from "../PillarBox/index";
 import { Reference } from '../Reference';
 import { Paragraph } from '../Paragraph/index';
-import { StatusBar } from '../StatusBar';
 import { Subtitle } from "../Subtitle";
 import { Loader } from "../Loader";
 import { Title } from '../Title/index';
@@ -83,6 +82,24 @@ export class Article extends Component {
           {
             data.blocks.map(block => renderBlock(block))
           }
+        </PillarBox>
+      </div>
+    )
+  }
+}
+
+export class ArticleSkeleton extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div style={s.ARTICLE}>
+        <PillarBox>
+          <Loader width="75%" minWidth="200px" height="45px" margin="40px 0 0" />
+          <Loader width="20%" minWidth="100px" height="15px" margin="10px 0 80px" />
+          <Loader width="100%" minWidth="400px" height="100px" margin="0 0 240px" />
         </PillarBox>
       </div>
     )

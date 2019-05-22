@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './styles.css';
+import s from './styles.less';
 
 const REPLACER = Object.freeze({
   LINK: { EXPR: /\(\(([^\)\)]*)\)\)/g, TPL: '<a target="_blank" href="$1">$1</a>' },
@@ -10,9 +10,9 @@ const REPLACER = Object.freeze({
 });
 
 export const Paragraph = props => (
-  <div style={s.PARAGRAPH_WRAPPER}>
+  <div className={s.paragraph_wrapper}>
     <p 
-      style={s.PARAGRAPH} 
+      className={s.paragraph} 
       dangerouslySetInnerHTML={{ 
         __html: props.text
           .replace(REPLACER.LINK.EXPR, REPLACER.LINK.TPL)

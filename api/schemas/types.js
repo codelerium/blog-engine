@@ -6,6 +6,8 @@ export const typeDefs = [
     }
     input SubscriberInput {
       email: String
+      validated: Boolean
+      hash: String
     }
     input CommentInput {
       content: String
@@ -22,6 +24,8 @@ export const typeDefs = [
     type Subscriber {
       _id: String
       email: String
+      validated: Boolean
+      hash: String
     }
     type Commenter {
       _id: String
@@ -47,6 +51,7 @@ export const typeDefs = [
       created: String
       author_id: String
       slug: String
+      thumbnail: String
       blocks: [BlockInput]
     }
     type Block {
@@ -62,6 +67,7 @@ export const typeDefs = [
     type Article {
       _id: String
       slug: String
+      thumbnail: String
       title: String
       created: String
       author_id: String
@@ -84,9 +90,11 @@ export const typeDefs = [
       deleteArticle(_id: String): Boolean
       deleteAllArticles: Boolean
       subscribe(_id: String, input: SubscriberInput): Subscriber
+      verifyEmail(email: String, hash: String): Boolean
       unsubscribe(_id: String): Boolean
       createCommenter(_id: String, input: CommenterInput): Commenter
       createComment(_id: String, input: CommentInput): Comment
+      likeComment(_id: String): Comment
     }
     schema {
       query: Query

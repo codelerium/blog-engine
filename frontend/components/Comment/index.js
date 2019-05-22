@@ -19,7 +19,12 @@ export const Comment = props => (
       </span>
       {props.comment.content}
       <div style={{ marginTop: 8 }}>
-        <button style={{ paddingLeft: 0, border: 'none', background: 'transparent', fontSize: '14px' }}>Like</button>
+        <button 
+          style={{ paddingLeft: 0, border: 'none', background: 'transparent', fontSize: '14px' }}
+          onClick={props.onLike}
+        >
+          Like
+        </button>
         <button style={{ border: 'none', background: 'transparent', fontSize: '14px' }}>Reply</button>
         <span style={{ fontSize: '14px' }}>
           <span style={{ display: 'inline-block', marginLeft: 20 }}>{props.comment.likes} Likes</span>
@@ -52,4 +57,5 @@ export const Comment = props => (
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
+  onLike: PropTypes.func.isRequired,
 };

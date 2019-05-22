@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export const PillarBox = props => (
   <div style={{ 
     ...s.PILLAR_BOX, 
-    maxWidth: !props.extended ? '705px' : '825px',
+    maxWidth: !props.extended ? '705px' : '1425px',
     padding: window.innerWidth <= 768 ? 20 : 0,
   }}>
     {props.children}

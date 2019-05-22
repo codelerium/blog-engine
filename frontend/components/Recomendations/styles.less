@@ -1,0 +1,68 @@
+@import '../../base.less';
+
+.recommendation_wrapper {
+  padding: 160px 0;
+  border-top: 1px solid @gray-10;
+}
+
+.recommendations {
+  display: flex;
+  width: 100% // calc(100% + 100px);
+  // margin: 0 0 0 -50px,
+}
+
+.recommendation {
+  flex: 1;
+  color: black;
+  text-decoration: none;
+}
+
+.first {
+  display: flex;
+  text-align: left;
+  border-right: 1px solid @gray-10;
+
+  .text_wrapper {
+    margin-right: auto;
+  }
+}
+
+.last {
+  display: flex;
+  text-align: right;
+  
+  .text_wrapper {
+    margin-left: auto;
+  }
+}
+
+.heading {
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.title {
+  margin: 0;
+}
+
+.label {
+  color: #ccc;
+}
+
+.image {
+  width: 120px;
+
+  &_first {
+    margin-right: 20px;
+  }
+
+  &_last {
+    margin-left: 20px;
+  }
+}
+
+.text_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

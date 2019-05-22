@@ -12,10 +12,12 @@ import {Button} from "../Button";
 export default class ArticleEditor extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       title: this.props.article.title,
       slug: this.props.article.slug,
       blocks: [],
+      thumbnail: this.props.article.thumbnail,
     };
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
@@ -31,6 +33,7 @@ export default class ArticleEditor extends Component {
       title: props.article.title,
       slug: props.article.slug,
       blocks: props.article.blocks || [],
+      thumbnail: props.article.thumbnail,
     });
   }
 
@@ -40,6 +43,10 @@ export default class ArticleEditor extends Component {
 
   onSlugChange(slug) {
     this.setState({ slug });
+  }
+
+  onThumbnailChange(thumbnail) {
+    this.setState({ thumbnail });
   }
 
   onContentChange(content) {
@@ -52,6 +59,7 @@ export default class ArticleEditor extends Component {
       slug: this.state.slug,
       title: this.state.title,
       blocks: this.state.blocks,
+      thumbnail: this.state.thumbnail,
     }).then(res => {
       console.log(res)
     }).catch(err => console.log(err));
@@ -143,6 +151,7 @@ export default class ArticleEditor extends Component {
         <div style={{ display: 'flex' }}>
           <Input onChange={e => this.onTitleChange(e.target.value)} value={this.state.title}/>
           <Input onChange={e => this.onSlugChange(e.target.value)} value={this.state.slug}/>
+          <Input onChange={e => this.onThumbnailChange(e.target.value)} value={this.state.thumbnail}/>
         </div>
         {this.state.blocks.length > 0 && this.renderBlocks()}
         <div style={{ display: 'flex' }}>

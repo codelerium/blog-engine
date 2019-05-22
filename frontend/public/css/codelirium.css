@@ -30,3 +30,12 @@ pre {
     from { stroke-dasharray: 0 30px 100px 5px; }
     to { stroke-dasharray: 0 10px 100px 5px; }
 }
+
+@keyframes blink {
+    0% {
+      background: #ddd;
+    }
+    100% {
+      background: #333;
+    }
+  }

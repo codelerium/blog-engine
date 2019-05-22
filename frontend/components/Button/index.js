@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LoginButton } from 'react-facebook';
-import s from './style.css';
+import s from './style.less';
 
 export const BUTTON_TYPE = {
     PRIMARY: 'BUTTON_PRIMARY',
@@ -10,12 +10,12 @@ export const BUTTON_TYPE = {
 
 export const Button = props => (
     props.children ? (
-        <span style={s[props.type] || s.BUTTON} onClick={props.onClick}>
+        <span className={s.button} onClick={props.onClick}>
             { props.children }
         </span>
     ) : (
         props.type === BUTTON_TYPE.LOGIN ? (
-            <div style={s[BUTTON_TYPE.PRIMARY]}>
+            <div className={s.button}>
                 <LoginButton
                     scope="email"
                     onCompleted={props.onClick}
@@ -26,7 +26,7 @@ export const Button = props => (
                 </LoginButton>
             </div>
         ) : (
-            <button style={s[props.type] || s.BUTTON} onClick={props.onClick}>
+            <button className={s.button} onClick={props.onClick}>
                 {props.title}
             </button>
         )

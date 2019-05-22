@@ -4,7 +4,6 @@ export default class RequireAuthDirective extends SchemaDirectiveVisitor {
     visitFieldDefinition(field) {
         const { resolve = defaultFieldResolver } = field;
         const { role } = this.args;
-        console.log(role);
         field.resolve = async function(...args) {
             const [, , ctx] = args;
             if (ctx.req && ctx.req.user) {

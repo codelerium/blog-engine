@@ -2,60 +2,11 @@ import React, { Component } from 'react';
 import { Article } from '../../components/Article';
 import { API } from '../../endpoints';
 import { Page } from "../Page";
+import { Recommendations } from "../../components/Recomendations";
 import Subscribe from '../../components/Subscribe'
-// import { Recommendations } from "../Recomendations";
-import { Footer } from "../../components/Footer";
 import Comments from '../../components/Comments';
-
-const testComments = [
-  {
-    id: '0',
-    name: 'Jung Dániel',
-    content: 'Voronoi is a simple idea, that can difficult to implement in higher dimensions! Well explained! :)',
-    likes: 2,
-    timestamp: '21min ago',
-    replies: [
-      {
-        id: '1',
-        name: 'Juhasz Gergely',
-        content: 'Dude! That\'s gay',
-        likes: 0,
-        timestamp: '10min ago',
-      },
-      {
-        id: '3',
-        name: 'Jung Dániel',
-        likes: 1,
-        text: 'Thanks, never got nicer compliment from you!',
-        timestamp: '3min ago',
-      }
-    ]
-  },
-  {
-    id: '2',
-    name: 'Schmiz Péter',
-    text: 'Woww! Nice',
-    likes: 0,
-    replies: [],
-    timestamp: '3h ago',
-  },
-  {
-    id: '5',
-    name: 'Ken Perlin',
-    text: 'The animation below is the 2D variant of Ken Perlin\'s algorithm. To create this fluid-like animation, I rotated the gradient vectors around there center and recalculated the pixels. I also applied a gradient mapping to the resulting values to achieve a vivid result. Don\'t worry I\'ll explain the steps in detail.',
-    likes: 0,
-    replies: [
-      {
-        id: '6',
-        name: 'Jung Daniel',
-        text: 'Deserves more likes!',
-        likes: 0,
-        timestamp: 'Yesterday',
-      }
-    ],
-    timestamp: '1997 Aug',
-  },
-];
+import { Loader } from '../../components/Loader';
+import { PillarBox } from '../../components/PillarBox';
 
 class ArticleListPage extends Component {
   constructor(props) {
@@ -63,24 +14,49 @@ class ArticleListPage extends Component {
     this.state = {
       article: null,
       comments: [],
+      recommendations: [],
     }
 
+    window.scrollTo(0, 0);
+
     const { id } = this.props.match.params;
+    
     API.RETRIEVE_ARTICLE({ slug: id })
       .then((article) => {
-        this.setState({ article });
+        setTimeout(() => {
+          this.setState({ article });
+        }, 1000);
+      });
+
+    API.RETRIEVE_RECOMMENDATIONS({ currentId: id })
+      .then((recommendations) => {
+        this.setState({ recommendations });
       });
   }
 
   render() {
-    const { article, comments } = this.state;
+    const { article, comments, recommendations } = this.state;
     return (
       <Page>
-        { 
-          article && (
+        {
+          article ? (
             <Article data={article} />
+          ) : (
+            <PillarBox>
+              <div 
+                style={{
+                  height: '100vh',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Loader/>
+              </div>
+            </PillarBox>
           )
         }
+        <Recommendations recommendations={recommendations} />
         {
           article && (
             <Comments 
@@ -90,8 +66,6 @@ class ArticleListPage extends Component {
           )
         }
         <Subscribe />
-        {/* <Recommendations/> */}
-        <Footer/>
       </Page>
     )
   }

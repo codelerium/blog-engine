@@ -8,7 +8,7 @@ import { Avatar } from "../Avatar";
 import { Button, BUTTON_TYPE } from "../Button";
 import { setCookie, getCookie } from '../../helpers';
 import { API } from "../../endpoints";
-import s from './style.css';
+import s from './style.less';
 
 export default class Comments extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ export default class Comments extends Component {
     };
     this.onTextChange = this.onTextChange.bind(this);
     this.onSend = this.onSend.bind(this);
+    this.onLike = this.onLike.bind(this);
 
     const { articleId } = this.props;
     
@@ -34,6 +35,21 @@ export default class Comments extends Component {
 
   onTextChange(e) {
     this.setState({ text: e.target.value });
+  }
+
+  onLike(id) {
+    const { comments } = this.state;
+    API.LIKE_COMMENT({ id })
+      .then((updatedComment) => {
+        this.setState({
+          comments: comments.map((comment) => (
+            comment._id === id ? updatedComment : comment
+          )),
+        }, () => {
+          console.log(this.state.comments)
+        });
+      })
+      .catch(err => (console.log(err)));
   }
 
   onSend(e) {
@@ -73,7 +89,11 @@ export default class Comments extends Component {
       );
     }
     return comments.map((comment) => (
-      <Comment key={comment._id} comment={comment}/>
+      <Comment 
+        key={comment._id}
+        comment={comment}
+        onLike={() => this.onLike(comment._id)}
+      />
     ));
   }
 
@@ -94,17 +114,19 @@ export default class Comments extends Component {
   render() {
     const { commenter } = this.state;
     return (
-      <div style={{ padding: '60px 0', borderTop: '1px solid #f5f5f5', background: '#f9f9f9' }}>
+      <div className={s.comments}>
         <PillarBox>
-          <h2>Leave your thoughts</h2>
-          <div style={{ display: 'flex' }}>
-            <Avatar url={(commenter || {}).avatar} />
-            <div style={{ margin: '0 20px', flex: 1 }}>
-              <TextArea onChange={this.onTextChange} value={this.state.text}/>
+          <div className={s.comments_inner}>
+            <h2 className={s.title}>Leave your thoughts</h2>
+            <div className={s.comment_wrapper}>
+              <Avatar url={(commenter || {}).avatar} />
+              <div className={s.comment_input}>
+                <TextArea onChange={this.onTextChange} value={this.state.text}/>
+              </div>
+              {this.renderCommentButton()}
             </div>
-            {this.renderCommentButton()}
+            {this.renderComments()}
           </div>
-          {this.renderComments()}
         </PillarBox>
       </div>
     );

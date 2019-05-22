@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './styles.css';
+import s from './styles.less';
 
 const REPLACER = Object.freeze({
   LINK: { EXPR: /\(([^\)]*)\)/g, TPL: '<a target="_blank" href="$1">$1</a>' },
@@ -11,7 +11,7 @@ const REPLACER = Object.freeze({
 
 export const BlockQuote = props => (
   <blockquote 
-    style={s.BLOCK_QUOTE}
+    className={s.blockquote}
     dangerouslySetInnerHTML={{
       __html: props.text.replace(REPLACER.ANCHOR.EXPR, REPLACER.ANCHOR.TPL)
     }}

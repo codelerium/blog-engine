@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import env from 'dotenv';
+import * as Guid from 'guid';
+import base64 from 'base-64';
+import { sendEmail } from '../helpers/email';
 
 export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
   Query: {
@@ -17,7 +20,6 @@ export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
       }
     },
     retrieveArticle: async (root, { slug }) => {
-      console.log('SLUG', slug)
       return await Article.findOne({ slug })
     },
     retrieveAllArticles: async () => (await Article.find({}).toArray()),
@@ -53,12 +55,13 @@ export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
       return await Article.findOne({ _id });
     },
     updateArticle: async (root, {_id, input}) => {
+      const updated = Object.entries(input).reduce((res, [field, value]) => {
+        res = { ...res, [field]: value };
+        return res;
+      }, {});
       await Article.findOneAndUpdate(
         {_id},
-        Object.entries(input).reduce((res, [field, value]) => {
-          res = { ...res, $set: { [field]: value }};
-          return res;
-        }, {})
+        { $set: updated }
       );
       return await Article.findOne({ _id });
     },
@@ -69,11 +72,34 @@ export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
       if (found) {
         return false;
       }
+      const validationHash = Guid.raw();
       await Subscriber.insert({
         _id,
         email: input.email,
+        validated: false,
+        hash: validationHash,
       });
-			return await Subscriber.findOne({ _id });
+      const encoded = base64.encode(`${input.email}:${validationHash}`);
+      await sendEmail({
+        to: input.email,
+        link: `https://codelirium.io/verify/${encoded}?`,
+      });
+      return await Subscriber.findOne({ _id });
+    },
+    verifyEmail: async (root, { email, hash }) => {
+      const found = await Subscriber.findOne({ email });
+      console.log(found, found.validated, hash)
+      if (found && found.validated) {
+        return true;
+      }
+      if (found.hash && found.hash === hash) {
+        console.log('HERE')
+        await Subscriber.findOneAndUpdate({ email }, {
+          $set: { validated: true }
+        })
+        return true;
+      }
+      return false;
     },
     unsubscribe: async (root, {_id}) => (await Subscriber.remove({ _id })),
     createComment: async (root, { _id, input }) => {
@@ -94,5 +120,10 @@ export const resolvers = (User, Article, Subscriber, Commenter, Comment) => ({
       });
       return await Commenter.findOne({ _id });
     },
+    likeComment: async (root, { _id}) => {
+      const comment = await Comment.findOne({ _id });
+      await Comment.update({ _id }, { $set: { likes: comment.likes + 1 }});
+      return await Comment.findOne({ _id });
+    }
   },
 });

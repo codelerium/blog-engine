@@ -1,10 +1,10 @@
 import React from 'react';
-import s from './style.css';
+import s from './style.less';
 import PropTypes from 'prop-types';
 
 export const TextArea = props => (
   <textarea
-    style={s.TEXT_AREA}
+    className={s.textarea}
     placeholder="What is in your mind?"
     onChange={props.onChange}
     value={props.value}

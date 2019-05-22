@@ -1,0 +1,65 @@
+@import '../../base.less';
+
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    transition: transform .3s ease;
+    transform: translateY(-80px);
+    opacity: 0;
+}
+
+.open {
+    transform: translate(0);
+    opacity: 1;
+}
+
+.warning {
+    background: @yellow;
+    color: black;
+}
+
+.danger {
+    background: @red;
+    color: @white;
+}
+
+.success {
+    background: @green;
+    color: @black;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 25%;
+        height: 2px;
+        background: currentColor;
+        transform-origin: 50% 50%;
+    }
+
+    &:before {
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &:after {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+}

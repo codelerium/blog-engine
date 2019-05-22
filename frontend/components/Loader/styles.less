@@ -1,0 +1,41 @@
+@import "../../base.less";
+
+@items: 12;
+@itemWidth: 12px;
+@itemHeight: 3px;
+@itemHeightHalf: @itemHeight / 2;
+@radius: 16;
+@velocity: 1.5;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  position: relative;
+
+  &__item {
+    position: absolute;
+    width: @itemWidth;
+    height: @itemHeight;
+    background: transparent;
+    border-radius: @itemHeightHalf;
+  }
+}
+
+each(range(@items), {
+  @deg: 360deg / @items * @value;
+  @offsetX: (cos(360deg / @items * @value) * @radius) - (@itemWidth / 2);
+  @offsetY: (sin(360deg / @items * @value) * @radius) - (@itemHeight / 2);
+  @delay: @value * (1 / @velocity) / @items;
+  @animLength: 1 / @velocity;
+
+  .loader__item:nth-child(@{value}) {
+    transform: translate(@offsetX, @offsetY) rotate(@deg);
+    :global {
+      animation: ~"blink @{animLength}s linear @{delay}s infinite";
+    }
+  }
+});

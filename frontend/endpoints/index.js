@@ -102,6 +102,7 @@ export const API = {
               created
               author_id
               slug
+              thumbnail
               blocks {
                 _id
                 type
@@ -134,6 +135,7 @@ export const API = {
               created
               author_id
               slug
+              thumbnail
               blocks {
                 _id
                 type
@@ -149,6 +151,33 @@ export const API = {
       OPTIONS,
     ).then(res => res.json());
     return res.data.retrieveAllArticles;
+  },
+  RETRIEVE_RECOMMENDATIONS: async (options) => {
+    const { currentId } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          {
+            retrieveAllArticles {
+              _id
+              title
+              slug
+              thumbnail
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(
+      API_ENDPOINT,
+      OPTIONS,
+    ).then(res => res.json());
+    return res.data.retrieveAllArticles.filter(i => i.slug !== currentId).splice(0, 2);
   },
   CREATE_ARTICLE: async (options) => {
     const { title, created, slug, authorId, id } = options;
@@ -167,12 +196,14 @@ export const API = {
               created: "${created}"
               author_id: "${authorId}"
               slug: "${slug}"
+              thumbnail: "${""}"
             }) {
               _id,
               title,
               created,
               author_id,
               slug,
+              thumbnail,
             }
           }
         `
@@ -185,7 +216,8 @@ export const API = {
     return res.data.createArticle;
   },
   UPDATE_ARTICLE: async (options) => {
-    const { title, created, authorId, id, slug, blocks } = options;
+    const { title, id, slug, blocks, thumbnail } = options;
+    console.log(thumbnail);
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -199,6 +231,7 @@ export const API = {
             updateArticle(_id: "${id}", input: {
               title: "${title}",
               slug: "${slug}",
+              thumbnail: "${thumbnail}"
               blocks: [${blocks.map(block => 
                 (
                   `{
@@ -214,6 +247,7 @@ export const API = {
               author_id, 
               created,
               slug,
+              thumbnail,
             }
           }
         `
@@ -276,6 +310,30 @@ export const API = {
         return { success: false, error: err.message };
       });
     return res.data.subscribe;
+  },
+  VERIFY_EMAIL: async (options) => {
+    const { email, hash } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            verifyEmail(email: "${email}", hash: "${hash}")
+          }
+        `
+      })
+    };
+    const res = await fetch(API_ENDPOINT, OPTIONS)
+      .then(res => res.json())
+      .catch(err => {
+        return { success: false, error: err.message };
+      });
+    console.log(res);
+    return { success: res.data.verifyEmail };
   },
   CREATE_COMMENT: async (options) => {
     const { text, id, commenter, articleId } = options;
@@ -344,5 +402,35 @@ export const API = {
     };
     const res = await fetch(API_ENDPOINT, OPTIONS).then(res => res.json());
     return res.data.createCommenter;
+  },
+  LIKE_COMMENT: async (options) => {
+    const { id } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            likeComment(_id: "${id}") {
+              _id
+              content
+              timestamp
+              likes
+              commenter {
+                _id
+                email
+                name
+                avatar
+              }
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(API_ENDPOINT, OPTIONS).then(res => res.json());
+    return res.data.likeComment;
   }
 };
