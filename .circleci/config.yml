@@ -54,4 +54,6 @@ workflows:
           requires:
             - init
       - deploy:
+          requires:
+            - build
           type: approval
