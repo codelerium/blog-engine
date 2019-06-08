@@ -49,6 +49,8 @@ workflows:
   codelirium:
     jobs:
       - init
-      - build
+      - build:
+          requires:
+            - init
       - deploy:
           type: approval
