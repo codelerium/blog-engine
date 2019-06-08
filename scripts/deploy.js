@@ -6,7 +6,7 @@ const config = {
   username: process.env.FTP_USER_NAME,
   password: process.env.FTP_PASS,
   host: process.env.FTP_HOST,
-  port: 21,
+  port: process.env.FTP_PORT,
   include: ['*'],
 }
 
