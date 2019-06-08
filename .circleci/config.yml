@@ -48,7 +48,7 @@ workflows:
   version: 2
   codelirium:
     jobs:
-      - prepare
-      - build:
+      - init
+      - build
       - deploy:
           type: approval
