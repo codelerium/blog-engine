@@ -43,7 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: npm deploy
+      - run: npm run deploy
 
 workflows:
   version: 2
