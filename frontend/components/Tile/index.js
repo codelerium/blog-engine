@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Row } from '../Row';
 import { Col } from '../Col';
 import { Image } from '../Image';
-import s from './style.less';
+import styled from 'styled-components';
 
 export default class Tile extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ export default class Tile extends Component {
                                             <p style={{ fontSize: '14px' }}>
                                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                                             </p>
-                                            <Link className={s.anchor} to={`/article/${article.slug}`}>Read more</Link>
+                                            <Anchor to={`/article/${article.slug}`}>Read more</Anchor>
                                         </div>
                                     </div>
                                 </Col>
@@ -55,3 +55,17 @@ export default class Tile extends Component {
         )
     }
 }
+
+
+const Anchor = styled(Link)`
+    color: ${p => p.theme.color.black};
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid ${p => p.theme.color.black};
+    padding: 4px 8px;
+
+    &:hover {
+        color: ${p => p.theme.color.white};
+        background: ${p => p.theme.color.black};
+    }
+`;

@@ -16,16 +16,15 @@ import fs from 'fs';
 import https from 'https';
 import 'babel-polyfill';
 
-// Certificate
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/codelirium.io/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/codelirium.io/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/codelirium.io/chain.pem', 'utf8');
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
-const credentials = {
-	// key: privateKey,
-	// cert: certificate,
-	// ca: ca
-};
+const PORTS = {
+  DEV: 3001,
+  PROD: {
+    HTTP: 80,
+    HTTPS: 443,
+  }
+}
 
 const directiveResolvers = {
   requireAuth(next, src, args, context) {
@@ -75,15 +74,24 @@ const init = async () => {
     },
   })));
 
-  const httpsServer = https.createServer(credentials, app);
+  if (IS_DEV) {
+    app.use('/apis', graphiqlExpress({ endpointURL: '/api' }));
+    app.listen(PORTS.DEV, () => console.log(`API running on port: ${PORTS.DEV}`));
+  } else {
+    const privateKey = fs.readFileSync('/etc/letsencrypt/live/codelirium.com/privkey.pem', 'utf8');
+    const certificate = fs.readFileSync('/etc/letsencrypt/live/codelirium.com/cert.pem', 'utf8');
+    const ca = fs.readFileSync('/etc/letsencrypt/live/codelirium.com/chain.pem', 'utf8');
 
-  // httpsServer.listen(444, () => {
-  //   console.log('HTTPS Server running on port 444');
-  // });
-  app.use('/apis', graphiqlExpress({ endpointURL: '/api' }));
-  app.listen(3001, () => { 
-    console.log('Server started at http://localhost:3001'); 
-  });
+    const credentials = {
+      key: privateKey,
+      cert: certificate,
+      ca: ca
+    };
+
+    https
+      .createServer(credentials, app)
+      .listen(PORTS.PROD.HTTPS, () => console.log(`API running on port: ${PORTS.PROD.HTTPS}`));
+  }
 };
 
 init();

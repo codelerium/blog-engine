@@ -332,7 +332,6 @@ export const API = {
       .catch(err => {
         return { success: false, error: err.message };
       });
-    console.log(res);
     return { success: res.data.verifyEmail };
   },
   CREATE_COMMENT: async (options) => {

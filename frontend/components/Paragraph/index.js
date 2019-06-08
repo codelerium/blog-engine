@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './styles.less';
+import styled from 'styled-components';
 
 const REPLACER = Object.freeze({
   LINK: { EXPR: /\(\(([^\)\)]*)\)\)/g, TPL: '<a target="_blank" href="$1">$1</a>' },
@@ -10,20 +10,29 @@ const REPLACER = Object.freeze({
 });
 
 export const Paragraph = props => (
-  <div className={s.paragraph_wrapper}>
-    <p 
-      className={s.paragraph} 
+  <ParagraphWrapper>
+    <StyledParagraph
       dangerouslySetInnerHTML={{ 
-        __html: props.text
-          .replace(REPLACER.LINK.EXPR, REPLACER.LINK.TPL)
-          .replace(REPLACER.BOLD.EXPR, REPLACER.BOLD.TPL)
-          .replace(REPLACER.ITALIC.EXPR, REPLACER.ITALIC.TPL)
-          .replace(REPLACER.ANCHOR.EXPR, REPLACER.ANCHOR.TPL)
+      __html: props.text
+        .replace(REPLACER.LINK.EXPR, REPLACER.LINK.TPL)
+        .replace(REPLACER.BOLD.EXPR, REPLACER.BOLD.TPL)
+        .replace(REPLACER.ITALIC.EXPR, REPLACER.ITALIC.TPL)
+        .replace(REPLACER.ANCHOR.EXPR, REPLACER.ANCHOR.TPL)
       }} 
     />
-  </div>
+  </ParagraphWrapper>
 );
 
 Paragraph.propTypes = {
   text: PropTypes.string.isRequired,
 };
+
+const ParagraphWrapper = styled.div`
+  padding: ${p => p.theme.spacing.sm} 0;
+`;
+
+const StyledParagraph = styled.p`
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+`;

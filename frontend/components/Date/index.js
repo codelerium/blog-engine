@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './styles.less';
+import styled from 'styled-components';
 
 export const Date = props => (
-  <div className={s.date}>
+  <Wrapper>
     {props.text}
-  </div>
+  </Wrapper>
 );
 
 Date.propTypes = {
   text: PropTypes.string.isRequired,
 };
+
+const Wrapper = styled.div`
+  font-size: 14px;
+  color: #ccc;  
+`;

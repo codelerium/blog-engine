@@ -50,8 +50,8 @@ class ArticleListPage extends Component {
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
-              >
-                <Loader/>
+              > 
+                <Loader />
               </div>
             </PillarBox>
           )

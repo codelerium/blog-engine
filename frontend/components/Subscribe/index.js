@@ -4,8 +4,8 @@ import { PillarBox } from '../PillarBox';
 import { Input } from '../Input';
 import { Button, BUTTON_TYPE } from '../Button';
 import { API } from '../../endpoints';
-import s from './style.less'
 import Notification, { NOTIFICATION_TYPES } from '../Notification';
+import styled from 'styled-components';
 
 export default class Subscribe extends Component {
     constructor(props) {
@@ -72,25 +72,25 @@ export default class Subscribe extends Component {
         } = this.state;
 
         return (
-            <div className={s.subscribe}>
+            <SubscribeWrapper>
                 <PillarBox>
-                    <div className={s.subscribe_inner}>
+                    <SubscribeInner>
                         <h2>Do not miss any update!</h2>
                         <div>Subscribe to the codelirium newsletter to stay tuned.</div>
-                        <div className={s.subscribe_input}>
+                        <SubscribeInput>
                             <Input 
                                 onChange={this.onEmailChange}
                                 value={email}
                                 placeholder="Type your email"
                                 type="email"
                             />
-                        </div>
+                        </SubscribeInput>
                         <Button
                             title="Subscribe"
                             type={BUTTON_TYPE.PRIMARY}
                             onClick={this.onSubscribe}
                         />
-                    </div>
+                    </SubscribeInner>
                 </PillarBox>
                 <Notification
                     open={openNotification}
@@ -98,7 +98,31 @@ export default class Subscribe extends Component {
                     type={subscribed ? NOTIFICATION_TYPES.SUCCESS : NOTIFICATION_TYPES.DANGER}
                     onClose={this.onCloseNotification}
                 />
-            </div>
+            </SubscribeWrapper>
         )
     }
 }
+
+const SubscribeWrapper = styled.div`
+    border-top: 1px solid ${p => p.theme.color['gray-10']};
+    padding: 160px 0;
+
+    h2 {
+        margin-bottom: ${p => p.theme.spacing.xs};
+    }
+`;
+
+const SubscribeInner = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const SubscribeInput = styled.div`
+    margin: ${p => p.theme.spacing.lg} 0 ${p => p.theme.spacing.sm};
+
+    input {
+        min-width: 500px;
+        text-align: center;
+    }
+`;

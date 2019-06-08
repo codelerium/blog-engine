@@ -1,4 +1,4 @@
-const nodeExternals = require('webpack-node-externals');
+// const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
   node: {
     __dirname: true,
   },
-  externals: [nodeExternals()],
+  // externals: [nodeExternals()],
   entry: ['./api/api.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),

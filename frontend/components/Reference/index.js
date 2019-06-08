@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './style.less';
+import styled from 'styled-components';
 
 const REPLACER = Object.freeze({
     LINK: { 
@@ -10,11 +10,10 @@ const REPLACER = Object.freeze({
 });
 
 export const Reference = props => (
-    <div className={s.reference__wrapper}>
+    <ReferenceWrapper>
         {
             props.references.map((reference, i) => (
-                <div 
-                    className={s.reference} 
+                <StyledReference
                     key={i}
                     dangerouslySetInnerHTML={{ 
                         __html: reference.replace(
@@ -25,9 +24,29 @@ export const Reference = props => (
                 />
             ))
         }
-    </div>
+    </ReferenceWrapper>
 )
 
 Reference.propTypes = {
     references: PropTypes.array.isRequired,
 }
+
+const ReferenceWrapper = styled.div`
+    padding: 20px 0;
+`;
+
+const StyledReference = styled.div`
+    margin-bottom: 10px;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    white-space: pre-wrap;
+  
+    a {
+        color: ${p => p.theme.color['gray-50']}; 
+        text-decoration: none;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+`;

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './style.less';
+import styled from 'styled-components';
 
 export const Input = props => (
   <div>
-    <input className={`${props.hasErr ? s.error : ''} ${s.input}`}
+    <StyledInput
       placeholder={props.placeholder}
       onChange={props.onChange}
       value={props.value}
@@ -12,9 +12,9 @@ export const Input = props => (
     />
     {
       props.hasErr && (
-        <p className={s.inputError}>
+        <InputError>
           {props.errMsg}
-        </p>
+        </InputError>
       )
     }
   </div>
@@ -33,3 +33,20 @@ Input.propTypes = {
   hasErr: PropTypes.bool,
   errMsg: PropTypes.string,
 };
+
+const StyledInput = styled.input`
+  width: 100%;
+  height: ${p => p.theme.spacing.md};
+  padding: 0 ${p => p.theme.spacing.xs};
+  font-size: 14px;
+  border: 1px solid ${p => p.hasErr ? p.theme.color.red : p.theme.color['gray-30']};
+  background: transparent;
+  outline: none;
+`;
+
+const InputError = styled.p`
+  color: ${p => p.theme.color.red};
+  font-size: 14px;
+  margin: 10px 0;
+  text-align: center;
+`;

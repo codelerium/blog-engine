@@ -8,7 +8,7 @@ import { Avatar } from "../Avatar";
 import { Button, BUTTON_TYPE } from "../Button";
 import { setCookie, getCookie } from '../../helpers';
 import { API } from "../../endpoints";
-import s from './style.less';
+import styled from 'styled-components';
 
 export default class Comments extends Component {
   constructor(props) {
@@ -114,21 +114,23 @@ export default class Comments extends Component {
   render() {
     const { commenter } = this.state;
     return (
-      <div className={s.comments}>
+      <CommentsWrapper>
         <PillarBox>
-          <div className={s.comments_inner}>
-            <h2 className={s.title}>Leave your thoughts</h2>
-            <div className={s.comment_wrapper}>
+          <CommentsInner>
+            <CommentTitle>
+              Leave your thoughts
+            </CommentTitle>
+            <CommentWrapper>
               <Avatar url={(commenter || {}).avatar} />
-              <div className={s.comment_input}>
+              <CommentInput>
                 <TextArea onChange={this.onTextChange} value={this.state.text}/>
-              </div>
+              </CommentInput>
               {this.renderCommentButton()}
-            </div>
+            </CommentWrapper>
             {this.renderComments()}
-          </div>
+          </CommentsInner>
         </PillarBox>
-      </div>
+      </CommentsWrapper>
     );
   }
 }
@@ -137,3 +139,25 @@ Comments.propTypes = {
   comments: PropTypes.array.isRequired,
   articleId: PropTypes.string.isRequired,
 };
+
+const CommentWrapper = styled.div`
+  display: flex;
+`;
+
+const CommentsWrapper = styled.div`
+  padding: 160px 0;
+  border-top: 1px solid ${props => props.theme.color['gray-10']};
+`;
+
+const CommentsInner = styled.div`
+  width: 100%;
+`;
+
+const CommentInput = styled.div`
+  margin: 0 20px;
+  flex: 1;
+`;
+
+const CommentTitle = styled.h2`
+  margin-bottom: ${props => props.theme.spacing.md};
+`;

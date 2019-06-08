@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { LoginButton } from 'react-facebook';
-import s from './style.less';
+import { css } from 'styled-components';
 
 export const BUTTON_TYPE = {
     PRIMARY: 'BUTTON_PRIMARY',
@@ -10,12 +10,12 @@ export const BUTTON_TYPE = {
 
 export const Button = props => (
     props.children ? (
-        <span className={s.button} onClick={props.onClick}>
+        <span css={buttonClass} onClick={props.onClick}>
             { props.children }
         </span>
     ) : (
         props.type === BUTTON_TYPE.LOGIN ? (
-            <div className={s.button}>
+            <div css={buttonClass}>
                 <LoginButton
                     scope="email"
                     onCompleted={props.onClick}
@@ -26,7 +26,7 @@ export const Button = props => (
                 </LoginButton>
             </div>
         ) : (
-            <button className={s.button} onClick={props.onClick}>
+            <button css={buttonClass} onClick={props.onClick}>
                 {props.title}
             </button>
         )
@@ -39,3 +39,28 @@ Button.propTypes = {
     children: PropTypes.array,
     type: PropTypes.string,
 };
+
+const buttonClass = css`
+    font-size: 14px;
+    padding: 0 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: 2px solid ${props => props.theme.color.black};
+    color: ${props => props.theme.color.black};
+    background: ${props => props.theme.color.white};
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+        color: ${props => props.theme.color.white};
+        background: ${props => props.theme.color.black};
+
+        button {
+            color: ${props => props.theme.color.white};
+            cursor: pointer;
+        }
+    }
+`;

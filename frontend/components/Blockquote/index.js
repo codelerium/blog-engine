@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import s from './styles.less';
+import styled from 'styled-components';
 
 const REPLACER = Object.freeze({
   LINK: { EXPR: /\(([^\)]*)\)/g, TPL: '<a target="_blank" href="$1">$1</a>' },
@@ -10,8 +10,7 @@ const REPLACER = Object.freeze({
 });
 
 export const BlockQuote = props => (
-  <blockquote 
-    className={s.blockquote}
+  <Wrapper 
     dangerouslySetInnerHTML={{
       __html: props.text.replace(REPLACER.ANCHOR.EXPR, REPLACER.ANCHOR.TPL)
     }}
@@ -21,3 +20,15 @@ export const BlockQuote = props => (
 BlockQuote.propTypes = {
   text: PropTypes.string.isRequired,
 };
+
+const Wrapper = styled.div`
+  font-size: 20px;
+  padding: 20px 0 20px 50px;
+  margin: 0;
+  color: ${props => props.theme.color['gray-20']};
+  font-weight: 100;
+
+  a {
+    color: ${props => props.theme.color['gray-20']};
+  }
+`; 
