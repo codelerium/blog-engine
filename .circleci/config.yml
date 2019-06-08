@@ -43,10 +43,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - deploy:
-          name: Deploy
-          command: |
-            echo "iooooooo deploy"
+      - run: npm deploy
 
 workflows:
   version: 2
