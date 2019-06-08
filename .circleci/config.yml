@@ -27,11 +27,16 @@ jobs:
       - attach_workspace:
           at: .
       - run: npm run build:app
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/public
       - run: npm run build:api
       - persist_to_workspace:
           root: .
           paths:
-            - build
+            - api/dist
+
   deploy:
     <<: *defaults
     steps:
