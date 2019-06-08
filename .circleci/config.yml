@@ -36,7 +36,6 @@ jobs:
           root: .
           paths:
             - api/dist
-
   deploy:
     <<: *defaults
     steps:
@@ -44,6 +43,11 @@ jobs:
       - attach_workspace:
           at: .
       - run: npm run deploy
+  e2e:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: echo "TODO E2E tests"
 
 workflows:
   version: 2
@@ -57,3 +61,6 @@ workflows:
           requires:
             - build
           type: approval
+      - e2e:
+          requires:
+            - deploy
