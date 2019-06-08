@@ -60,7 +60,7 @@ workflows:
       - deploy:
           requires:
             - build
-          type: approval
+          # type: approval
       - e2e:
           requires:
             - deploy
