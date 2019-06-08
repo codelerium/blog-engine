@@ -16,7 +16,6 @@ jobs:
           paths:
             - node_modules
           key: n_modules-{{ checksum "package.json" }}
-      - run: npm build
       - persist_to_workspace:
           root: .
           paths:
@@ -32,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - build]
+            - build
   deploy:
     <<: *defaults
     steps:
