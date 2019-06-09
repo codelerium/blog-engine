@@ -1,31 +1,46 @@
-const FtpDeploy = require('ftp-deploy');
+const Client = require('node-ssh');
+const localEnv = require('dotenv').config();
 const path = require('path');
-const ftpDeploy = new FtpDeploy();
+const client = new Client();
+const env = localEnv.parsed;
 
-const config = {
-  username: process.env.FTP_USER_NAME,
-  password: process.env.FTP_PASS,
-  host: process.env.FTP_HOST,
-  port: process.env.FTP_PORT,
-  include: ['*'],
+const deployApi = () => {
+  return client.putDirectory(
+    path.resolve(__dirname, '../api'),
+    '/home/jungd/codelirium/api'
+  ).then((status) => {
+    console.log('[API] transferred:', status);
+  });
+};
+
+const deployClient = () => {
+  return client.putFile(
+    path.resolve(__dirname, '../frontend/public/app.bundle.js'),
+    '/home/jungd/codelirium/frontend/public/app.bundle.js'
+  ).then((status) => {
+    console.log('[CLIENT] transferred:', status === undefined);
+  }).catch(err => console.log(err));
 }
 
-const apiConfig = {
-  ...config,
-  localRoot: path.resolve(__dirname, '../api/dist'),
-  remoteRoot: "/home/jungd/codelirium/api/dist",
+const deployServer = () => {
+  return client.putFile(
+    path.resolve(__dirname, '../server.js'),
+    '/home/jungd/codelirium/server.js'
+  ).then((status) => {
+    console.log('[SERVER] transferred:', status === undefined);
+  }).catch(err => console.log(err));
 }
 
-const appConfig = {
-  ...config,
-  localRoot: path.resolve(__dirname, '../frontend/build'),
-  remoteRoot: "/home/jungd/codelirium/frontend/build",
-}
-    
-ftpDeploy.deploy(apiConfig, (err) => {
-  console.log(err || 'API bundle uploaded');
-});
-    
-ftpDeploy.deploy(appConfig, (err) => {
-  console.log(err || 'APP bundle uploaded');
+client.connect({
+  host: process.env.FTP_HOST || env.FTP_HOST,
+  port: process.env.FTP_PORT || env.FTP_PORT,
+  username: process.env.FTP_USER_NAME || env.FTP_USER_NAME,
+  password: process.env.FTP_PASS || env.FTP_PASS,
+}).then(async () => {
+  await Promise.all([
+    deployApi(),
+    deployClient(),
+    deployServer(),
+  ]);
+  client.dispose();
 });

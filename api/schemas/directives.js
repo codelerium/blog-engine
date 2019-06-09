@@ -1,6 +1,6 @@
-import { SchemaDirectiveVisitor, AuthenticationError } from 'apollo-server';
+const { SchemaDirectiveVisitor, AuthenticationError } = require('apollo-server');
 
-export default class RequireAuthDirective extends SchemaDirectiveVisitor {
+module.exports = class RequireAuthDirective extends SchemaDirectiveVisitor {
     visitFieldDefinition(field) {
         const { resolve = defaultFieldResolver } = field;
         const { role } = this.args;

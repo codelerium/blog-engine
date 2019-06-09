@@ -1,4 +1,4 @@
-export const API_ENDPOINT = 'http://localhost:3001/api' || 'https://95.140.38.41:444/api';
+export const API_ENDPOINT = '/api';
 
 export const BLOCK_TYPES = {
     TEXT: 'TEXT',
