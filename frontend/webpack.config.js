@@ -9,18 +9,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        options: {
-          presets: ['es2015', 'stage-0', 'react'],
-          plugins: [
-            'transform-async-to-generator',
-            'syntax-async-functions',
-            'babel-plugin-styled-components',
-          ],
+        use: {
+          loader: "babel-loader"
         }
-      },
+      }
     ]
   }
 }
