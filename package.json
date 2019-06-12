@@ -31,7 +31,8 @@
     "node-ssh": "6.0.0",
     "prop-types": "15.7.2",
     "webpack": "4.33.0",
-    "webpack-cli": "3.3.4"
+    "webpack-cli": "3.3.4",
+    "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
     "apollo-server-express": "2.6.3",
