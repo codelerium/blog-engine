@@ -4,19 +4,10 @@ const path = require('path');
 const client = new Client();
 const env = localEnv.parsed;
 
-const deployApi = () => {
-  return client.putDirectory(
-    path.resolve(__dirname, '../api'),
-    '/home/jungd/codelirium/api'
-  ).then((status) => {
-    console.log('[API] transferred:', status);
-  });
-};
-
 const deployClient = () => {
   return client.putFile(
-    path.resolve(__dirname, '../frontend/public/app.bundle.js'),
-    '/home/jungd/codelirium/frontend/public/app.bundle.js'
+    path.resolve(__dirname, '../public/app.bundle.js'),
+    '/home/jungd/codelirium/public/app.bundle.js'
   ).then((status) => {
     console.log('[CLIENT] transferred:', status === undefined);
   }).catch(err => console.log(err));
@@ -24,7 +15,7 @@ const deployClient = () => {
 
 const deployServer = () => {
   return client.putFile(
-    path.resolve(__dirname, '../.server/server.bundle.js'),
+    path.resolve(__dirname, '../server.bundle.js'),
     '/home/jungd/codelirium/server.bundle.js'
   ).then((status) => {
     console.log('[SERVER] transferred:', status === undefined);
@@ -38,7 +29,6 @@ client.connect({
   password: process.env.FTP_PASS || env.FTP_PASS,
 }).then(async () => {
   await Promise.all([
-    deployApi(),
     deployClient(),
     deployServer(),
   ]);
