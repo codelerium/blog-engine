@@ -27,7 +27,9 @@ const directiveResolvers = {
 }
 
 const init = async (app) => {
-  const client = await MongoClient.connect(MONGO_CONN_STRING);
+  const client = await MongoClient.connect(MONGO_CONN_STRING, { 
+    useNewUrlParser: true,
+  });
   const DB = client.db('grapql-test');
   const User = DB.collection('User');
   const Article = DB.collection('Article');
