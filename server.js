@@ -22,7 +22,7 @@ app.use(morgan('tiny'));
 app.use(express.static(path.resolve(__dirname, 'frontend/public')));
 app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
-app.get('*', function(_, res) {
+app.get('/', (_, res) => {
   res.sendFile(__dirname + '/frontend/public/index.html');
 });
 

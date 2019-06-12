@@ -1,17 +1,13 @@
 const { MONGO_CONN_STRING } = require('./config/dev');
 const { 
-  graphqlExpress,
-  graphiqlExpress,
-} = require('graphql-server-express');
-const { makeExecutableSchema } = require ('graphql-tools');
+  ApolloServer,
+  makeExecutableSchema,
+} = require('apollo-server-express');
 const { MongoClient } = require('mongodb');
 const { typeDefs } = require('./schemas/types');
 const { resolvers } = require ('./schemas/resolvers');
-const bodyParser = require('body-parser');
 const env = require('dotenv');
 const jwt = require('jsonwebtoken');
-
-const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const directiveResolvers = {
   requireAuth(next, src, args, context) {
@@ -50,16 +46,17 @@ const init = async (app) => {
     directiveResolvers,
   });
 
-  app.use('/api', bodyParser.json(), graphqlExpress((req) => ({
+  const api = new ApolloServer({
     schema,
-    context: {
+    context: ({ req }) => ({
       Authorization: req.headers['authorization'],
-    },
-  })));
+    }),
+  });
 
-  if (IS_DEV) {
-    app.use('/apis', graphiqlExpress({ endpointURL: '/api' }));
-  }
+  api.applyMiddleware({
+    app,
+    path: '/api'
+  });
 };
 
 module.exports = {
