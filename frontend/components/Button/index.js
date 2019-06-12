@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { LoginButton } from 'react-facebook';
 import { css } from 'styled-components';
 
@@ -33,13 +32,6 @@ export const Button = props => (
     )
 );
 
-Button.propTypes = {
-    title: PropTypes.string,
-    onClick: PropTypes.func,
-    children: PropTypes.array,
-    type: PropTypes.string,
-};
-
 const buttonClass = css`
     font-size: 14px;
     padding: 0 40px;
@@ -54,7 +46,7 @@ const buttonClass = css`
     outline: none;
     cursor: pointer;
 
-    &:hover {
+    :hover {
         color: ${props => props.theme.color.white};
         background: ${props => props.theme.color.black};
 
