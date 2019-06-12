@@ -26,11 +26,13 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: npm run build
+      - run: npm run build:client
+      - run: npm run build:server
       - persist_to_workspace:
           root: .
           paths:
             - frontend/public
+            - .server
   deploy:
     <<: *defaults
     steps:

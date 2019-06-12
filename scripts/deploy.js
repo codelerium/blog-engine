@@ -24,8 +24,8 @@ const deployClient = () => {
 
 const deployServer = () => {
   return client.putFile(
-    path.resolve(__dirname, '../server.js'),
-    '/home/jungd/codelirium/server.js'
+    path.resolve(__dirname, '../.server/server.bundle.js'),
+    '/home/jungd/codelirium/server.bundle.js'
   ).then((status) => {
     console.log('[SERVER] transferred:', status === undefined);
   }).catch(err => console.log(err));

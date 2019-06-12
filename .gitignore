@@ -20,11 +20,9 @@ node_modules/
 # Visual Code
 .vscode
 
-# Distribution folder
-uid-skeleton/dist
-
-# CI related UID files
-uid-skeleton/ci
-
 # Env
 .env
+
+# Build
+.server
+frontend/public/
