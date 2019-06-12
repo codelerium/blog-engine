@@ -18,7 +18,6 @@ const PORTS = {
 
 const app = express();
 
-app.use(morgan('tiny'));
 app.use(express.static(path.resolve(__dirname, 'frontend/public')));
 app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
@@ -29,6 +28,7 @@ app.get('/', (_, res) => {
 api.init(app);
 
 if (IS_DEV) {
+  app.use(morgan('tiny'));
   app.listen(PORTS.DEV, () => console.log(`DevServer running on port ${PORTS.DEV}`))
 } else {
   const privateKey = fs.readFileSync('/etc/letsencrypt/live/codelirium.io/privkey.pem', 'utf8');
