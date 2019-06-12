@@ -18,11 +18,11 @@ const PORTS = {
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, 'frontend/public')));
+app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
-app.get('/', (_, res) => {
-  res.sendFile(__dirname + '/frontend/public/index.html');
+app.get('*', (_, res) => {
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 api.init(app);

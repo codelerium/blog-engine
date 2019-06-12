@@ -6,7 +6,11 @@ module.exports = {
   externals: [nodeExternals()],
   entry: ['./server.js'],
   output: {
-    path: path.resolve(__dirname, '.server'),
+    path: path.resolve(__dirname, ''),
     filename: 'server.bundle.js',
   },
+  node: {
+    __dirname: false,
+    __filename: false,
+  }
 }

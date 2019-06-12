@@ -31,8 +31,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - frontend/public
-            - .server
+            - public
+            - server.bundle.js
   deploy:
     <<: *defaults
     steps:
