@@ -108,6 +108,7 @@ export const API = {
               author_id
               slug
               thumbnail
+              intro
               blocks {
                 _id
                 type
@@ -141,6 +142,7 @@ export const API = {
               author_id
               slug
               thumbnail
+              intro
               blocks {
                 _id
                 type
@@ -173,6 +175,7 @@ export const API = {
               title
               slug
               thumbnail
+              intro
             }
           }
         `
@@ -202,6 +205,7 @@ export const API = {
               author_id: "${authorId}"
               slug: "${slug}"
               thumbnail: "${""}"
+              intro: "${""}"
             }) {
               _id,
               title,
@@ -209,6 +213,7 @@ export const API = {
               author_id,
               slug,
               thumbnail,
+              intro,
             }
           }
         `
@@ -221,7 +226,7 @@ export const API = {
     return res.data.createArticle;
   },
   UPDATE_ARTICLE: async (options) => {
-    const { title, id, slug, blocks, thumbnail } = options;
+    const { title, id, slug, blocks, thumbnail, intro } = options;
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -235,7 +240,8 @@ export const API = {
             updateArticle(_id: "${id}", input: {
               title: "${title}",
               slug: "${slug}",
-              thumbnail: "${thumbnail}"
+              thumbnail: "${thumbnail}",
+              intro: """${intro}"""
               blocks: [${(blocks || []).map(block => 
                 (
                   `{
@@ -252,6 +258,7 @@ export const API = {
               created,
               slug,
               thumbnail,
+              intro,
             }
           }
         `

@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 export const TextArea = props => (
-  <Wrapper
-    onBlur={props.autosave}
-    height={props.height}
-    placeholder="What is in your mind?"
-    onChange={props.onChange}
-    value={props.value}
-  />
+  <div>
+    {props.label !== '' && typeof props.label === 'string' && (
+      <Label>
+        {props.label}
+      </Label>
+    )}
+    <Wrapper
+      onBlur={props.autosave}
+      height={props.height}
+      placeholder={props.placeholder || 'What is in your mind?'}
+      onChange={props.onChange}
+      value={props.value}
+    />
+  </div>
 );
 
 TextArea.defaultProps = {
@@ -38,4 +45,11 @@ const Wrapper = styled.textarea`
   font-size: 14px;
   outline: none;
   box-sizing: border-box;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: ${p => p.theme.spacing.xs};
+  font-size: 12px;
+  text-transform: uppercase;  
 `;

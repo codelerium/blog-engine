@@ -12,6 +12,7 @@ export default class Tile extends Component {
 
     render() {
         const { article } = this.props;
+        console.log(article.intro)
         return (
             <Row style={{ marginBottom: 120 }}>
                 <Col ratio={1}/>
@@ -31,8 +32,12 @@ export default class Tile extends Component {
                                     <div style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
                                         <div>
                                             <h2 style={{ marginTop: 0 }}>{article.title}</h2>
-                                            <p style={{ fontSize: '14px' }}>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            <p style={{ fontSize: '14px', marginBottom: 30 }}>
+                                                {
+                                                    article.intro && article.intro.length > 120
+                                                    ? `${article.intro.substring(0, 120)}...`
+                                                    : article.intro
+                                                }
                                             </p>
                                             <Anchor to={`/article/${article.slug}`}>Read more</Anchor>
                                         </div>

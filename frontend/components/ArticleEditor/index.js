@@ -24,6 +24,7 @@ export default class ArticleEditor extends Component {
       slug: this.props.article.slug,
       blocks: this.props.article.blocks,
       thumbnail: this.props.article.thumbnail,
+      intro: this.props.article.intro,
       sidebarSize: 480,
       selectedBlockId: null,
       selectedTab: 0,
@@ -34,6 +35,8 @@ export default class ArticleEditor extends Component {
     this.onCreateBlock = this.onCreateBlock.bind(this);
     this.onDeleteBlock = this.onDeleteBlock.bind(this);
     this.onBlockContentChange = this.onBlockContentChange.bind(this);
+    this.onThumbnailChange = this.onThumbnailChange.bind(this);
+    this.onIntroChange = this.onIntroChange.bind(this);
     this.onInsertDown = this.onInsertDown.bind(this);
     this.onBlockSelect = this.onBlockSelect.bind(this);
     this.onTabSelect = this.onTabSelect.bind(this);
@@ -57,6 +60,10 @@ export default class ArticleEditor extends Component {
     this.setState({ thumbnail });
   }
 
+  onIntroChange(intro) {
+    this.setState({ intro });
+  }
+
   onContentChange(content) {
     this.setState({ content });
   }
@@ -68,6 +75,7 @@ export default class ArticleEditor extends Component {
       title: this.state.title,
       blocks: this.state.blocks,
       thumbnail: this.state.thumbnail,
+      intro: this.state.intro,
     }).then(res => {
       console.log(res);
     }).catch(err => {
@@ -176,6 +184,7 @@ export default class ArticleEditor extends Component {
       slug,
       thumbnail,
       selectedTab,
+      intro,
     } = this.state;
     
     const selectedBlock = (blocks || []).find(block => block._id === selectedBlockId) || null;
@@ -226,6 +235,16 @@ export default class ArticleEditor extends Component {
                     autosave={this.onArticleUpdate}
                     onChange={e => this.onThumbnailChange(e.target.value)}
                     value={thumbnail}
+                  />
+                </FormItem>
+                <FormItem>
+                  <TextArea
+                    label="Introduction"
+                    height={200}
+                    autosave={this.onArticleUpdate}
+                    onChange={e => this.onIntroChange(e.target.value)}
+                    placeholder="Short inroduction"
+                    value={intro}
                   />
                 </FormItem>
               </ContextBarGroup>,

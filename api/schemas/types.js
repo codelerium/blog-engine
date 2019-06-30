@@ -56,6 +56,7 @@ module.exports = {
       author_id: String
       slug: String
       thumbnail: String
+      intro: String
       blocks: [BlockInput]
     }
     type Block {
@@ -72,6 +73,7 @@ module.exports = {
       _id: String
       slug: String
       thumbnail: String
+      intro: String
       title: String
       created: String
       author_id: String
