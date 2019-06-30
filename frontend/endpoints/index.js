@@ -11,13 +11,18 @@ export const API = {
       },
       method: 'POST',
       body: JSON.stringify({
-        query: `{ login(email: "${email}", password: "${password}") }`
+        query: `{
+          login(email: "${email}", password: "${password}")
+        }`
       })
     };
     const res = await fetch(
       API_ENDPOINT,
       OPTIONS,
     ).then(res => res.json());
+
+    console.log({ res });
+
     const result = res.data.login;
     if (result === 'Unauthorized') {
       return { success: false, error: result };
@@ -217,7 +222,6 @@ export const API = {
   },
   UPDATE_ARTICLE: async (options) => {
     const { title, id, slug, blocks, thumbnail } = options;
-    console.log(thumbnail);
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -232,7 +236,7 @@ export const API = {
               title: "${title}",
               slug: "${slug}",
               thumbnail: "${thumbnail}"
-              blocks: [${blocks.map(block => 
+              blocks: [${(blocks || []).map(block => 
                 (
                   `{
                     _id: "${block._id}", 

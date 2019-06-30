@@ -66,7 +66,10 @@ module.exports = {
         );
         return await Article.findOne({ _id });
       },
-      deleteArticle: async (root, {_id}) => (await Article.remove({ _id })),
+      deleteArticle: async (root, {_id}) => {
+        const resp = await Article.deleteOne({ _id });
+        return !!resp.result.ok;
+      },
       deleteAllArticles: async () => (await Article.remove({})),
       subscribe: async (root, {_id, input}) => {
         const found = await Subscriber.findOne({ email: input.email });

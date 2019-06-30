@@ -2,6 +2,8 @@ const { gql } = require('apollo-server-express');
 
 module.exports = {
   typeDefs: gql`
+    directive @requireAuth on FIELD_DEFINITION
+
     input UserInput {
       email: String
       password: String
@@ -76,22 +78,22 @@ module.exports = {
       blocks: [Block]
     }
     type Query {
-      login(email: String, password: String): User
+      login(email: String, password: String): String
       retrieveArticle(slug: String): Article
       retrieveAllArticles: [Article]
       retrieveCommentsByArticle(articleId: String): [Comment]
       retrieveCommenter(_id: String): Commenter
     }
     type Mutation {
-      createUser(_id: String, input: UserInput): User
-      updateUser(_id: String, input: UserInput): User
-      deleteUser(_id: String): Boolean
-      deleteAllUsers: Boolean
-      createArticle(_id: String, input: ArticleInput): Article
-      updateArticle(_id: String, input: ArticleInput): Article
-      deleteArticle(_id: String): Boolean
-      deleteAllArticles: Boolean
-      subscribe(_id: String, input: SubscriberInput): Subscriber
+      createUser(_id: String, input: UserInput): User @requireAuth
+      updateUser(_id: String, input: UserInput): User @requireAuth
+      deleteUser(_id: String): Boolean @requireAuth
+      deleteAllUsers: Boolean @requireAuth
+      createArticle(_id: String, input: ArticleInput): Article @requireAuth
+      updateArticle(_id: String, input: ArticleInput): Article @requireAuth
+      deleteArticle(_id: String): Boolean @requireAuth
+      deleteAllArticles: Boolean @requireAuth
+      subscribe(_id: String, input: SubscriberInput): Subscriber 
       verifyEmail(email: String, hash: String): Boolean
       unsubscribe(_id: String): Boolean
       createCommenter(_id: String, input: CommenterInput): Commenter

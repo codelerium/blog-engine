@@ -7,7 +7,7 @@ export const Image = props => (
       ...s.IMAGE_WRAPPER_OUTER,
       ...(props.extended && window.innerWidth > 768 ? {
           width: 'calc(100% + 100px)',
-          margin: '20px 0 20px -50px',
+          marginLeft: '-50px',
       } : {
           width: '100%',
           margin: '0',

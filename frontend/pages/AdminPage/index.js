@@ -4,14 +4,13 @@ import * as Guid from 'guid';
 import { API } from '../../endpoints';
 import { Page } from "../Page";
 import { Input } from "../../components/Input";
-import ArticleEditor from "../../components/ArticleEditor";
-import s from './styles.css';
-import { Link } from "react-router-dom";
 import Table from "../../components/Table";
 import TableHead from "../../components/TableHead";
 import TableBody from "../../components/TableBody";
 import TableRow from "../../components/TableRow";
-import {Button} from "../../components/Button";
+import { Button } from "../../components/Button";
+import { UIBox } from "../../components/UIBox";
+import styled from 'styled-components';
 
 class AdminPage extends Component {
   constructor(props) {
@@ -45,7 +44,6 @@ class AdminPage extends Component {
       slug: this.state.articleName.toLowerCase().split(' ').join('-'),
       authorId: '1',
     }).then(res => {
-      console.log(res);
       this.setState({
         articles: [
           ...this.state.articles,
@@ -73,46 +71,58 @@ class AdminPage extends Component {
 
   render() {
     return (
-      <Page>
-        <div style={s.CONTAINER}>
-          <main style={s.MAIN}>
-            <div style={s.ARTICLES}>
-              <Table>
-                <TableHead columns={['Name', 'Slug', 'Created', 'Actions']} />
-                <TableBody>
-                  {
-                      this.state.articles.map(article => (
-                          <TableRow
-                              key={article._id}
-                              source={article}
-                              properties={['title', 'slug', 'created']}
-                              actions={{
-                                onEdit: this.onEditArticle,
-                                onDelete: this.onDeleteArticle,
-                              }}
-                          />
-                      ))
-                  }
-                </TableBody>
-              </Table>
-              <div style={s.NEW_ARTICLE}>
-                <Input placeholder="Add article" onChange={this.onArticleNameChange} value={this.state.articleName}/>
-                <Button onClick={this.onAddArticle} title="Save"/>
-              </div>
-            </div>
-            <div style={s.EDIT}>
-              {
-                this.state.articles.length > 0 && this.state.selectedArticleId &&
-                  <ArticleEditor
-                    article={this.state.articles.find(a => a._id === this.state.selectedArticleId)}
-                  />
-              }
-            </div>
-          </main>
-        </div>
+      <Page header={false}>
+        <UIBox>
+          <AdminPageWrapper>
+            <CreateAction>
+              <CreateActionInput>
+                <Input
+                  placeholder="Add article"
+                  onChange={this.onArticleNameChange}
+                  value={this.state.articleName}
+                />
+              </CreateActionInput>
+              <Button onClick={this.onAddArticle} title="Save" />
+            </CreateAction>
+            <Table>
+              <TableHead columns={['Name', 'Slug', 'Created', '']} />
+              <TableBody>
+                {
+                  this.state.articles.map((article) => (
+                    <TableRow
+                      key={article._id}
+                      source={article}
+                      properties={['title', 'slug', 'created']}
+                      actions={{
+                        onDelete: () => this.onDeleteArticle(article._id),
+                      }}
+                    />
+                  ))
+                }
+              </TableBody>
+            </Table>
+          </AdminPageWrapper>
+        </UIBox>
       </Page>
     )
   }
 }
 
 export default AdminPage;
+
+const AdminPageWrapper = styled.div`
+  width: 100%;
+  padding: ${p => p.theme.spacing.md};
+`;
+
+const CreateAction = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const CreateActionInput = styled.div`
+  flex: 1;
+  box-sizing: border-box;
+  padding-right: 20px;
+`;

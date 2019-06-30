@@ -2,22 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as Guid from 'guid';
 import arrayMove from 'array-move';
-import {Input} from "../Input";
-import {TextArea} from "../Textarea";
-import {API} from "../../endpoints";
+import { Title } from "../Title";
+import { Input } from "../Input";
+import { API } from "../../endpoints";
 import { BLOCK_TYPES } from '../../config/dev';
 import ArticleBlock from "../ArticleBlock";
-import {Button} from "../Button";
+import { PillarBox } from '../PillarBox';
+import { Button } from '../Button';
+import { TextArea } from '../Textarea';
+import { Tab } from '../Tab';
+import { Editable } from '../Editable';
+import { FormItem } from '../FormItem';
+import { Select } from '../Select';
+import styled from 'styled-components';
 
 export default class ArticleEditor extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       title: this.props.article.title,
       slug: this.props.article.slug,
-      blocks: [],
+      blocks: this.props.article.blocks,
       thumbnail: this.props.article.thumbnail,
+      sidebarSize: 480,
+      selectedBlockId: null,
+      selectedTab: 0,
     };
     this.onTitleChange = this.onTitleChange.bind(this);
     this.onContentChange = this.onContentChange.bind(this);
@@ -26,14 +35,13 @@ export default class ArticleEditor extends Component {
     this.onDeleteBlock = this.onDeleteBlock.bind(this);
     this.onBlockContentChange = this.onBlockContentChange.bind(this);
     this.onInsertDown = this.onInsertDown.bind(this);
+    this.onBlockSelect = this.onBlockSelect.bind(this);
+    this.onTabSelect = this.onTabSelect.bind(this);
   }
 
-  componentWillReceiveProps(props) {
+  onTabSelect(idx) {
     this.setState({
-      title: props.article.title,
-      slug: props.article.slug,
-      blocks: props.article.blocks || [],
-      thumbnail: props.article.thumbnail,
+      selectedTab: idx,
     });
   }
 
@@ -61,8 +69,10 @@ export default class ArticleEditor extends Component {
       blocks: this.state.blocks,
       thumbnail: this.state.thumbnail,
     }).then(res => {
-      console.log(res)
-    }).catch(err => console.log(err));
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
   onCreateBlock() {
@@ -106,6 +116,13 @@ export default class ArticleEditor extends Component {
     });
   }
 
+  onBlockSelect(selectedBlockId) {
+    this.setState({
+      selectedBlockId,
+      selectedTab: 1,
+    });
+  }
+
   onMoveUp(index) {
     this.setState({
       blocks: arrayMove(this.state.blocks, index, index - 1),
@@ -124,7 +141,12 @@ export default class ArticleEditor extends Component {
       type: BLOCK_TYPES.TEXT,
       content: '',
     };
+
     const { blocks } = this.state;
+    if (!blocks) {
+      this.setState({ blocks: [item] });
+    }
+
     blocks.splice(index + 1, 0, item);
     this.setState({ blocks });
   }
@@ -134,10 +156,10 @@ export default class ArticleEditor extends Component {
       <ArticleBlock
         key={block._id}
         type={block.type}
+        block={block}
         content={block.content}
+        onSelect={() => this.onBlockSelect(block._id)}
         onDelete={() => this.onDeleteBlock(block._id)}
-        onBlockTypeChange={(type) => this.onBlockTypeChange(block._id, type)}
-        onTextChange={(text) => this.onBlockContentChange(block._id, text)}
         onInsertDown={() => this.onInsertDown(index)}
         onMoveUp={() => this.onMoveUp(index)}
         onMoveDown={() => this.onMoveDown(index)}
@@ -146,19 +168,92 @@ export default class ArticleEditor extends Component {
   }
 
   render() {
+    const {
+      selectedBlockId,
+      title,
+      sidebarSize,
+      blocks,
+      slug,
+      thumbnail,
+      selectedTab,
+    } = this.state;
+    
+    const selectedBlock = (blocks || []).find(block => block._id === selectedBlockId) || null;
+
     return(
-      <div>
-        <div style={{ display: 'flex' }}>
-          <Input onChange={e => this.onTitleChange(e.target.value)} value={this.state.title}/>
-          <Input onChange={e => this.onSlugChange(e.target.value)} value={this.state.slug}/>
-          <Input onChange={e => this.onThumbnailChange(e.target.value)} value={this.state.thumbnail}/>
-        </div>
-        {this.state.blocks.length > 0 && this.renderBlocks()}
-        <div style={{ display: 'flex' }}>
-          <Button onClick={this.onArticleUpdate} title="Update article"/>
-          <Button onClick={this.onCreateBlock} title="Create block"/>
-        </div>
-      </div>
+      <>
+        <ScrollWrapper size={sidebarSize}>
+          <Editable>
+            <PillarBox>
+              <Title text={title} created={this.props.article.created}/>
+            </PillarBox>
+            <div>
+              <Button onClick={() => this.onTabSelect(0)} title="Edit"/>
+              <Button onClick={() => this.onInsertDown(0)} title="Insert block"/>
+            </div>
+          </Editable>
+          {blocks && blocks.length > 0 && this.renderBlocks()}
+        </ScrollWrapper>
+        <ContextBar size={sidebarSize}>
+          <Tab
+            items={[
+              'general',
+              'block'
+            ]}
+            selected={selectedTab}
+            onTabChange={this.onTabSelect}
+            contents={[
+              <ContextBarGroup>
+                <FormItem>
+                  <Input
+                    label="Title"
+                    autosave={this.onArticleUpdate}
+                    onChange={e => this.onTitleChange(e.target.value)}
+                    value={title}
+                  />
+                </FormItem>
+                <FormItem>
+                  <Input
+                    label="Slug"
+                    autosave={this.onArticleUpdate}
+                    onChange={e => this.onSlugChange(e.target.value)}
+                    value={slug}
+                  />
+                </FormItem>
+                <FormItem>
+                  <Input
+                    label="Thumbnail"
+                    autosave={this.onArticleUpdate}
+                    onChange={e => this.onThumbnailChange(e.target.value)}
+                    value={thumbnail}
+                  />
+                </FormItem>
+              </ContextBarGroup>,
+              <ContextBarGroup>
+                {selectedBlockId && (
+                  <>
+                    <FormItem>
+                      <Select
+                        onChange={this.onBlockTypeChange.bind(this, selectedBlockId)}
+                        items={Object.values(BLOCK_TYPES)}
+                        selected={selectedBlock.type}
+                      />
+                    </FormItem>
+                    <FormItem>
+                      <TextArea
+                        autosave={this.onArticleUpdate}
+                        height={200}
+                        onChange={(e) => this.onBlockContentChange(selectedBlockId, e.target.value)}
+                        value={selectedBlock.content}
+                      />
+                    </FormItem>
+                  </>
+                )}
+              </ContextBarGroup>
+            ]}
+          />
+        </ContextBar>
+      </>
     )
   }
 }
@@ -166,3 +261,22 @@ export default class ArticleEditor extends Component {
 ArticleEditor.propTypes = {
   article: PropTypes.object.isRequired,
 };
+
+const ScrollWrapper = styled.div`
+  width: ${p => `calc(100% - ${p.size}px)`};
+  height: 100%;
+  overflow: auto;
+  padding: 120px 0 60px;
+  box-sizing: border-box;
+`;
+
+const ContextBar = styled.div`
+  border-left: 1px solid ${p => p.theme.color['gray-10']};
+  width: ${p => p.size}px;
+  box-sizing: border-box;
+  padding: 40px;
+`;
+
+const ContextBarGroup = styled.div`
+  margin-bottom: 40px;
+`;

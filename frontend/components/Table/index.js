@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 export default class Table extends Component {
     constructor(props) {
@@ -8,14 +9,14 @@ export default class Table extends Component {
 
     render() {
         return (
-            <table style={{ background: 'white', width: '100%', borderCollapse: 'collapse', border: '1px solid lightgray' }}>
-                <thead>
+            <StyledTable>
+                <StyledTableHead>
                     {this.props.children[0]}
-                </thead>
+                </StyledTableHead>
                 <tbody>
                     {this.props.children[1]}
                 </tbody>
-            </table>
+            </StyledTable>
         )
     }
 }
@@ -23,3 +24,14 @@ export default class Table extends Component {
 Table.propTypes = {
   children: PropTypes.array.isRequired,
 };
+
+const StyledTable = styled.table`
+    background: ${p => p.theme.color.white};
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid ${p => p.theme.color['gray-10']};
+`;
+
+const StyledTableHead = styled.thead`
+    height: 40px;
+`;

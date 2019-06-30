@@ -4,7 +4,13 @@ import styled from 'styled-components';
 
 export const Input = props => (
   <div>
+    {props.label !== '' && typeof props.label === 'string' && (
+      <Label>
+        {props.label}
+      </Label>
+    )}
     <StyledInput
+      onBlur={props.autosave}
       placeholder={props.placeholder}
       onChange={props.onChange}
       value={props.value}
@@ -22,16 +28,20 @@ export const Input = props => (
 
 Input.defaultProps = {
   hasErr: false,
+  autosave: () => {},
   errMsg: '',
+  label: '',
 }
 
 Input.propTypes = {
   onChange: PropTypes.func.isRequired,
+  autosave: PropTypes.func,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.string,
   hasErr: PropTypes.bool,
   errMsg: PropTypes.string,
+  label: PropTypes.string,
 };
 
 const StyledInput = styled.input`
@@ -42,6 +52,7 @@ const StyledInput = styled.input`
   border: 1px solid ${p => p.hasErr ? p.theme.color.red : p.theme.color['gray-30']};
   background: transparent;
   outline: none;
+  box-sizing: border-box;
 `;
 
 const InputError = styled.p`
@@ -49,4 +60,11 @@ const InputError = styled.p`
   font-size: 14px;
   margin: 10px 0;
   text-align: center;
+`;
+
+const Label = styled.label`
+  display: block;
+  margin-bottom: ${p => p.theme.spacing.xs};
+  font-size: 12px;
+  text-transform: uppercase;  
 `;

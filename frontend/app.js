@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import ArticleListPage from "./pages/ArticleListPage";
 import HomePage from './pages/HomePage';
 import AdminPage from './pages/AdminPage';
+import AdminListPage from './pages/AdminListPage';
 import LoginPage from './pages/LoginPage';
 import AboutPage from './pages/AboutPage';
 import RoadmapPage from './pages/RoadmapPage';
@@ -21,6 +22,9 @@ const theme = {
     yellow: '#ffd900',
     green: '#00ff8f',
     'gray-0': 'hsl(0, 0%, 100%)',
+    'gray-1': 'hsl(0, 0%, 99%)',
+    'gray-2': 'hsl(0, 0%, 98%)',
+    'gray-5': 'hsl(0, 0%, 95%)',
     'gray-10': 'hsl(0, 0%, 90%)',
     'gray-20': 'hsl(0, 0%, 80%)',
     'gray-30': 'hsl(0, 0%, 70%)',
@@ -50,6 +54,7 @@ export const App = () => (
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/article/:id" component={ArticleListPage} />
+          <Route path="/admin/:id" component={AdminListPage} />
           <Route path="/admin" component={AdminPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/about" component={AboutPage} />

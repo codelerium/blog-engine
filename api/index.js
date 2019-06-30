@@ -6,25 +6,7 @@ const {
 const { MongoClient } = require('mongodb');
 const { typeDefs } = require('./schemas/types');
 const { resolvers } = require ('./schemas/resolvers');
-const env = require('dotenv');
-const jwt = require('jsonwebtoken');
-
-const directiveResolvers = {
-  requireAuth(next, src, args, context) {
-    let token;
-    try {
-      token = context.Authorization.split(' ')[1];
-      const config = env.config();
-      const valid = jwt.verify(token, config.parsed.SECRET);
-      if (valid) {
-        return next();
-      }
-      return 'Unauthorized';
-    } catch(err) {
-      throw new Error(err);
-    }
-  }
-}
+const { RequireAuthDirective } = require('./schemas/directives');
 
 const init = async (app) => {
   const client = await MongoClient.connect(MONGO_CONN_STRING, { 
@@ -45,7 +27,9 @@ const init = async (app) => {
       Commenter,
       Comment,
     ),
-    directiveResolvers,
+    schemaDirectives: {
+      requireAuth: RequireAuthDirective,
+    }
   });
 
   const api = new ApolloServer({

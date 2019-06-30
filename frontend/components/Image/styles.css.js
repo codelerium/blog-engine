@@ -2,11 +2,11 @@ import BASE from '../../base.css';
 
 export default {
   IMAGE_WRAPPER_OUTER: {
-
+    padding: '20px 0',
   },
   IMAGE_WRAPPER_MIDDLE: {
     position: 'relative',
-    paddingBottom: '75%', // '56.25%', // 9 / 16
+    paddingBottom: '56.25%', // '75%', // '56.25%', // 9 / 16
     background: '#000',
   },
   IMAGE_WRAPPER_INNER: {
@@ -23,6 +23,6 @@ export default {
   CAPTION: {
     fontSize: 14,
     textAlign: 'center',
-    margin: '20px 0',
+    padding: '20px 0',
   }
 }
