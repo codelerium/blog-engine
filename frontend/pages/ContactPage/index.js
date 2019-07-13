@@ -9,7 +9,7 @@ class ContactPage extends Component {
 
     render() {
         return (
-            <Page>
+            <Page skipAuth>
                 <PillarBox>
                     <p style={{ marginTop: 240 }}>Contact page</p>
                 </PillarBox>

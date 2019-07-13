@@ -9,7 +9,7 @@ class AboutPage extends Component {
 
     render() {
         return (
-            <Page>
+            <Page skipAuth>
                 <PillarBox>
                     <p style={{ marginTop: 240 }}>About page</p>
                 </PillarBox>

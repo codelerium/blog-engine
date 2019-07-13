@@ -26,7 +26,7 @@ class HomePage extends Component {
     const multiplier = Math.max(0.5, Math.min(1, window.innerWidth / 1000));
     const { articles } = this.state;
     return (
-      <Page>
+      <Page skipAuth>
         <PillarBox extended>
           {
             articles.length > 0 ? (

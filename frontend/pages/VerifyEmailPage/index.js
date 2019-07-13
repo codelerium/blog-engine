@@ -15,7 +15,6 @@ class ContactPage extends Component {
             .decode(this.props.match.params.verification)
             .split(':');
 
-            console.log(verification);
         API.VERIFY_EMAIL({ email: verification[0], hash: verification[1] })
             .then(res => {
                 console.log(res);
@@ -27,7 +26,7 @@ class ContactPage extends Component {
     render() {
         const { success } = this.state;
         return (
-            <Page>
+            <Page skipAuth>
                 <PillarBox>
                     <p style={{ marginTop: 240 }}>
                         {

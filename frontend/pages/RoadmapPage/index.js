@@ -9,7 +9,7 @@ class RoadmapPage extends Component {
 
     render() {
         return (
-            <Page>
+            <Page skipAuth>
                 <PillarBox>
                     <p style={{ marginTop: 240 }}>Raodmap page</p>
                 </PillarBox>

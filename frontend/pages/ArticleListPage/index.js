@@ -37,7 +37,7 @@ class ArticleListPage extends Component {
   render() {
     const { article, comments, recommendations } = this.state;
     return (
-      <Page>
+      <Page skipAuth>
         {
           article ? (
             <Article data={article} />
