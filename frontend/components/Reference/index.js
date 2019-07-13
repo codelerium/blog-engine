@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const REPLACER = Object.freeze({
     LINK: { 
         EXPR: /\(([^\)]*)\)/g, 
-        TPL: id => `<a id="${id}" target="_blank" href="$1">[${id}] - $1</a>` 
+        TPL: id => `<a id="${id}" rel="noopener noreferrer" target="_blank" href="$1">[${id}] - $1</a>` 
     },
 });
 
