@@ -26,3 +26,5 @@ node_modules/
 # Build
 .server
 public/
+server.bundle.js
+stats.json
