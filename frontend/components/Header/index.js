@@ -14,11 +14,11 @@ export default class Header extends Component {
     }
 
     componentWillMount() {
-        window.addEventListener('scroll', this.onScroll);
+        // window.addEventListener('scroll', this.onScroll);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.onScroll);
+        // window.removeEventListener('scroll', this.onScroll);
     }
 
     onScroll() {
