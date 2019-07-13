@@ -5,10 +5,11 @@
   "main": "webpack.config.js",
   "scripts": {
     "dev": "webpack -w --config=frontend/webpack.client.js --mode development & node server.js",
-    "build:client": "webpack --config=frontend/webpack.client.js --mode production",
+    "build:client": "webpack --profile --json > stats.json --config=frontend/webpack.client.js --mode production",
     "build:server": "webpack --config=webpack.server.js --mode production",
     "start": "npm run dev",
-    "deploy": "node scripts/deploy.js"
+    "deploy": "node scripts/deploy.js",
+    "stats": "webpack-bundle-analyzer stats.json"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "react-tex": "1.4.0",
     "styled-components": "4.3.1",
     "webpack": "4.33.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "3.3.4",
     "webpack-node-externals": "1.7.2"
   },
