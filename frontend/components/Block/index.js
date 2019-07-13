@@ -1,13 +1,14 @@
 import React from 'react';
 import { BLOCK_TYPES } from '../../config/dev';
-import { BlockQuote } from '../Blockquote/index';
+import { BlockQuote } from '../Blockquote';
 import { Expression } from '../Expression';
 import { Reference } from '../Reference';
-import { Paragraph } from '../Paragraph/index';
+import { Paragraph } from '../Paragraph';
 import { Subtitle } from "../Subtitle";
-import { Image } from '../Image/index';
-import { List } from '../List/index';
-import { Code } from '../Code/index';
+import { Image } from '../Image';
+import { Video } from '../Video';
+import { List } from '../List';
+import { Code } from '../Code';
 
 export const renderBlock = block => {
   switch(block.type) {
@@ -17,7 +18,18 @@ export const renderBlock = block => {
       return <BlockQuote key={block._id} text={block.content} />;
     case BLOCK_TYPES.CODE:
       return <Code key={block._id} snippet={block.content} />;
-    case BLOCK_TYPES.IMAGE:
+    case BLOCK_TYPES.VIDEO: {
+      const contents = block.content.split('\n');
+      return (
+        <Video
+          key={block._id}
+          url={contents[0]}
+          caption={contents[1]}
+          extended={contents[2] === 'true'}
+        />
+      );
+    }
+    case BLOCK_TYPES.IMAGE: {
       const contents = block.content.split('\n');
       return (
         <Image
@@ -27,6 +39,7 @@ export const renderBlock = block => {
           extended={contents[2] === 'true'}
         />
       );
+    }
     case BLOCK_TYPES.SUBTITLE:
       return <Subtitle key={block._id} text={block.content} />;
     case BLOCK_TYPES.REFERENCE:
