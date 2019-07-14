@@ -76,7 +76,7 @@ export default class ArticleEditor extends Component {
       blocks: this.state.blocks,
       thumbnail: this.state.thumbnail,
       intro: this.state.intro,
-      published: this.state.published,
+      published: this.props.article.published,
     }).then(res => {
       console.log(res);
     }).catch(err => {
