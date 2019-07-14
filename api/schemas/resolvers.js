@@ -24,7 +24,6 @@ module.exports = {
         return await Article.findOne({ slug });
       },
       retrieveAllArticles: async (root, { published }) => {
-        console.log({ published });
         let articles;
         if (published) {
           articles = await Article.find({ published: true }).toArray();
