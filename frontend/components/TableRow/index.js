@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import { Button } from '../Button';
+import { Checkbox } from '../Checkbox';
 
 export default class TableRow extends Component {
     constructor(props) {
@@ -13,8 +14,12 @@ export default class TableRow extends Component {
       return source.hasOwnProperty(property) && property === 'slug';
     }
 
+    isPublished(source, property) {
+      return source.hasOwnProperty(property) && property === 'published';
+    }
+
     renderRow() {
-      const { source, properties } = this.props;
+      const { source, properties, actions } = this.props;
 
       return properties.map(property => (
         <StyledTd key={property}>
@@ -23,6 +28,12 @@ export default class TableRow extends Component {
               <StyledLink to={`/admin/${source.slug}`}>
                 {source[property]}
               </StyledLink>
+            ) : this.isPublished(source, property) ? (
+              <Checkbox
+                id={source._id}
+                checked={source[property]}
+                onChange={actions.onPublishChange}
+              />
             ) : source[property]
           }
         </StyledTd>)

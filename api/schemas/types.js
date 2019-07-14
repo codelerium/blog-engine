@@ -57,6 +57,7 @@ module.exports = {
       slug: String
       thumbnail: String
       intro: String
+      published: Boolean
       blocks: [BlockInput]
     }
     type Block {
@@ -77,12 +78,13 @@ module.exports = {
       title: String
       created: String
       author_id: String
+      published: Boolean
       blocks: [Block]
     }
     type Query {
       login(email: String, password: String): String
       retrieveArticle(slug: String): Article
-      retrieveAllArticles: [Article]
+      retrieveAllArticles(published: Boolean): [Article]
       retrieveCommentsByArticle(articleId: String): [Comment]
       retrieveCommenter(_id: String): Commenter
     }

@@ -24,6 +24,7 @@ class AdminPage extends Component {
     this.onAddArticle = this.onAddArticle.bind(this);
     this.onDeleteArticle = this.onDeleteArticle.bind(this);
     this.onEditArticle = this.onEditArticle.bind(this);
+    this.onPublishChange = this.onPublishChange.bind(this);
   }
 
   componentWillMount() {
@@ -58,9 +59,21 @@ class AdminPage extends Component {
       if (res.isSuccess) {
         this.setState({
           articles: this.state.articles.filter(a => a._id !== id),
-        })
+        });
       }
     })
+  }
+
+  onPublishChange(id, newPublished) {
+    API.PUBLISH_ARTICLE({ id, published: newPublished }).then(updatedArticle => {
+      this.setState({
+        articles: this.state.articles
+          .map(article => article._id === updatedArticle._id
+            ? updatedArticle
+            : article
+          ),
+      });
+    });
   }
 
   onEditArticle(id) {
@@ -85,16 +98,17 @@ class AdminPage extends Component {
               <Button onClick={this.onAddArticle} title="Save" />
             </CreateAction>
             <Table>
-              <TableHead columns={['Name', 'Slug', 'Created', '']} />
+              <TableHead columns={['Name', 'Slug', 'Created', 'Published', '']} />
               <TableBody>
                 {
                   this.state.articles.map((article) => (
                     <TableRow
                       key={article._id}
                       source={article}
-                      properties={['title', 'slug', 'created']}
+                      properties={['title', 'slug', 'created', 'published']}
                       actions={{
                         onDelete: () => this.onDeleteArticle(article._id),
+                        onPublishChange: this.onPublishChange,
                       }}
                     />
                   ))

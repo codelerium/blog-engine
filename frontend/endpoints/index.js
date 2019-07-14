@@ -21,8 +21,6 @@ export const API = {
       OPTIONS,
     ).then(res => res.json());
 
-    console.log({ res });
-
     const result = res.data.login;
     if (result === 'Unauthorized') {
       return { success: false, error: result };
@@ -109,6 +107,7 @@ export const API = {
               slug
               thumbnail
               intro
+              published
               blocks {
                 _id
                 type
@@ -125,7 +124,7 @@ export const API = {
     ).then(res => res.json());
     return res.data.retrieveArticle;
   },
-  RETRIEVE_ALL_ARTICLES: async () => {
+  RETRIEVE_ALL_ARTICLES: async ({ published = false } = {}) => {
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -135,7 +134,7 @@ export const API = {
       body: JSON.stringify({
         query: `
           {
-            retrieveAllArticles {
+            retrieveAllArticles(published: ${published}) {
               _id
               title
               created
@@ -143,11 +142,7 @@ export const API = {
               slug
               thumbnail
               intro
-              blocks {
-                _id
-                type
-                content
-              }
+              published
             }
           }
         `
@@ -206,6 +201,7 @@ export const API = {
               slug: "${slug}"
               thumbnail: "${""}"
               intro: "${""}"
+              published: false,
             }) {
               _id,
               title,
@@ -214,6 +210,7 @@ export const API = {
               slug,
               thumbnail,
               intro,
+              published,
             }
           }
         `
@@ -226,7 +223,7 @@ export const API = {
     return res.data.createArticle;
   },
   UPDATE_ARTICLE: async (options) => {
-    const { title, id, slug, blocks, thumbnail, intro } = options;
+    const { title, id, slug, blocks, thumbnail, intro, published } = options;
     const OPTIONS = {
       headers: {
         'Accept': 'application/json',
@@ -242,6 +239,7 @@ export const API = {
               slug: "${slug}",
               thumbnail: "${thumbnail}",
               intro: """${intro}"""
+              published: ${published}
               blocks: [${(blocks || []).map(block => 
                 (
                   `{
@@ -258,6 +256,41 @@ export const API = {
               created,
               slug,
               thumbnail,
+              published,
+              intro,
+            }
+          }
+        `
+      })
+    };
+    const res = await fetch(
+      API_ENDPOINT,
+      OPTIONS,
+    ).then(res => res.json());
+    return res.data.updateArticle;
+  },
+  PUBLISH_ARTICLE: async (options) => {
+    const { published, id } = options;
+    const OPTIONS = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('c_token')}`,
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        query: `
+          mutation {
+            updateArticle(_id: "${id}", input: {
+              published: ${published}
+            }) {
+              title, 
+              _id, 
+              author_id, 
+              created,
+              slug,
+              thumbnail,
+              published,
               intro,
             }
           }

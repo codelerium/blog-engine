@@ -21,9 +21,18 @@ module.exports = {
         }
       },
       retrieveArticle: async (root, { slug }) => {
-        return await Article.findOne({ slug })
+        return await Article.findOne({ slug });
       },
-      retrieveAllArticles: async () => (await Article.find({}).toArray()),
+      retrieveAllArticles: async (root, { published }) => {
+        console.log({ published });
+        let articles;
+        if (published) {
+          articles = await Article.find({ published: true }).toArray();
+        } else {
+          articles = await Article.find({}).toArray();
+        }
+        return articles;
+      },
       retrieveCommenter: async (root, { _id }) => (await Commenter.findOne({ _id })),
       retrieveCommentsByArticle: async (root, { articleId }) => (
         await Comment.find({ articleId }).toArray()

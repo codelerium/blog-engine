@@ -14,7 +14,7 @@ class HomePage extends Component {
     }
     window.scrollTo(0, 0);
 
-    API.RETRIEVE_ALL_ARTICLES()
+    API.RETRIEVE_ALL_ARTICLES({ published: true })
       .then((articles) => {
         window.setTimeout(() => {
           this.setState({ articles })
