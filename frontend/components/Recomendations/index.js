@@ -77,7 +77,7 @@ const TextTitle = styled.h3`
 `;
 
 const TextLabel = styled.div`
-  color: #ccc;
+  color: ${p => p.theme.color['gray-70']};
 `;
 
 const ImageWrapper = styled.div`

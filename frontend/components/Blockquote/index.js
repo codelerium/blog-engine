@@ -25,10 +25,10 @@ const Wrapper = styled.div`
   font-size: 20px;
   padding: 20px 0 20px 50px;
   margin: 0;
-  color: ${props => props.theme.color['gray-20']};
+  color: ${props => props.theme.color['gray-70']};
   font-weight: 100;
 
   a {
-    color: ${props => props.theme.color['gray-20']};
+    color: ${props => props.theme.color['gray-70']};
   }
 `; 

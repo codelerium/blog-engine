@@ -43,7 +43,7 @@ const StyledReference = styled.div`
     white-space: pre-wrap;
   
     a {
-        color: ${p => p.theme.color['gray-50']}; 
+        color: ${p => p.theme.color['gray-70']}; 
         text-decoration: none;
         width: 100%;
         overflow: hidden;

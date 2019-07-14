@@ -14,5 +14,5 @@ Date.propTypes = {
 
 const Wrapper = styled.div`
   font-size: 14px;
-  color: #ccc;  
+  color: ${p => p.theme.color['gray-70']};
 `;
