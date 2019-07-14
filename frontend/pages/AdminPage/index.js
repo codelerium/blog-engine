@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import format from 'date-fns/format';
 import * as Guid from 'guid';
 import { API } from '../../endpoints';
 import { Page } from "../Page";
@@ -40,7 +40,7 @@ class AdminPage extends Component {
   onAddArticle() {
     API.CREATE_ARTICLE({
       title: this.state.articleName,
-      created: moment().format('YYYY-MM-DD'),
+      created: format(new Date(), 'YYYY-MM-DD'),
       id: Guid.raw(),
       slug: this.state.articleName.toLowerCase().split(' ').join('-'),
       authorId: '1',

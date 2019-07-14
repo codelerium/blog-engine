@@ -15,7 +15,11 @@ export const Image = props => (
   }}>
     <div style={s.IMAGE_WRAPPER_MIDDLE}>
       <div style={s.IMAGE_WRAPPER_INNER}>
-        <img style={s.IMAGE} src={props.url} />
+        <img
+          style={s.IMAGE}
+          src={props.url}
+          alt={props.caption || 'Static image element'}
+        />
       </div>
     </div>
     {
@@ -34,6 +38,7 @@ Image.defaultProps = {
 
 Image.propTypes = {
   url: PropTypes.string.isRequired,
+  alt: PropTypes.string,
   caption: PropTypes.string,
   extended: PropTypes.bool,
 };

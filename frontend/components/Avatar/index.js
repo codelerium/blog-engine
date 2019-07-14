@@ -7,6 +7,7 @@ export const Avatar = props => (
         <img
             style={s.AVATAR}
             src={props.url || '/images/logo-01.svg'}
+            alt="codelirium logo"
         />
     </div>
 );

@@ -53,7 +53,7 @@ class LoginPage extends Component {
         <LoginWrapper>
           <LoginBox>
             <Logo to="/">
-              <img src="/images/logo-01.svg" />
+              <img src="/images/logo-01.svg" alt="codelirium logo" />
             </Logo>
             <FormItem>
               <Input label="Email" value={username} onChange={this.onUsernameChange} />

@@ -17,7 +17,6 @@ class ContactPage extends Component {
 
         API.VERIFY_EMAIL({ email: verification[0], hash: verification[1] })
             .then(res => {
-                console.log(res);
                 this.setState({ success: res.success });
             })
             .catch(err => console.log(err));

@@ -100,12 +100,10 @@ module.exports = {
       },
       verifyEmail: async (root, { email, hash }) => {
         const found = await Subscriber.findOne({ email });
-        console.log(found, found.validated, hash)
         if (found && found.validated) {
           return true;
         }
         if (found.hash && found.hash === hash) {
-          console.log('HERE')
           await Subscriber.findOneAndUpdate({ email }, {
             $set: { validated: true }
           })

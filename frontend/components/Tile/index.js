@@ -12,7 +12,6 @@ export default class Tile extends Component {
 
     render() {
         const { article } = this.props;
-        console.log(article.intro)
         return (
             <Row style={{ marginBottom: 120 }}>
                 <Col ratio={1}/>

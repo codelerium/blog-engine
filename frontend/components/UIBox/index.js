@@ -7,7 +7,7 @@ export const UIBox = ({ children }) => {
     <Wrapper>
       <HeaderBar>
         <Logo to="/admin">
-          <img src="/images/logo-01.svg" />
+          <img src="/images/logo-01.svg" alt="codelirium logo" />
         </Logo>
         <div>
           Admin

@@ -45,8 +45,6 @@ export default class Comments extends Component {
           comments: comments.map((comment) => (
             comment._id === id ? updatedComment : comment
           )),
-        }, () => {
-          console.log(this.state.comments)
         });
       })
       .catch(err => (console.log(err)));

@@ -40,7 +40,7 @@ export default class Header extends Component {
         return (
             <Wrapper closed={closed}>
                 <Logo to="/">
-                    <img src="/images/logo-01.svg" />
+                    <img src="/images/logo-01.svg" alt="codelirium logo" />
                 </Logo>
                 <Menu>
                     <MenuItem to="/about">About</MenuItem>
