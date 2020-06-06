@@ -43,7 +43,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
-    "apollo-server-express": "2.6.3",
+    "apollo-server-express": "2.14.2",
     "array-move": "2.1.0",
     "base-64": "0.1.0",
     "bcryptjs": "2.4.3",
